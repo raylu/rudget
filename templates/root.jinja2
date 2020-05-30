@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>rudget</title>
+		<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+	</head>
+	<body>
+		<button id="plaid_link">link account</button>
+		<script>
+			window.plaidPublicKey = '{{ plaid_public_key }}';
+		</script>
+		<script src="static/plaid.js"></script>
+	</body>
+</html>
