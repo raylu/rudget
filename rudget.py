@@ -2,28 +2,25 @@
 
 import mimetypes
 from os import path
+import sqlite3
 
 from pigwig import PigWig, Response
-import requests
 
 import config
+import plaid
 
-rs = requests.Session()
+db = sqlite3.connect('rudget.db')
+db.row_factory = sqlite3.Row
+db.execute('PRAGMA foreign_keys = ON')
 
 def root(request):
 	return Response.render(request, 'root.jinja2', {'plaid_public_key': config.plaid.public_key})
 
 def plaid_access_token(request):
-	public_token = request.body['public_token']
-	response = rs.post('https://sandbox.plaid.com/item/public_token/exchange', json={
-		'client_id': config.plaid.client_id,
-		'secret': config.plaid.development,
-		'public_token': public_token,
-	})
-	response.raise_for_status()
-	data = response.json()
-	data['access_token']
-	data['item_id']
+	item_id, access_token = plaid.exchange_token(request.body['public_token'])
+	with db:
+		db.execute('INSERT INTO plaid_item (item_id, access_token) VALUES(?, ?)',
+				(item_id, access_token))
 	return Response.json(None)
 
 def static(request, file_path):
