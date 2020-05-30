@@ -25,6 +25,7 @@ def iter_transactions(access_token):
 			'end_date': str(datetime.date.today()),
 			'options': {
 				'offset': offset,
+				'count': 500,
 			},
 		})
 		for transaction in data['transactions']:
