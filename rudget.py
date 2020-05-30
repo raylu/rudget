@@ -2,16 +2,12 @@
 
 import mimetypes
 from os import path
-import sqlite3
 
 from pigwig import PigWig, Response
 
 import config
+from db import db
 import plaid
-
-db = sqlite3.connect('rudget.db')
-db.row_factory = sqlite3.Row
-db.execute('PRAGMA foreign_keys = ON')
 
 def root(request):
 	return Response.render(request, 'root.jinja2', {'plaid_public_key': config.plaid.public_key})
