@@ -13,7 +13,7 @@
 	const plaid = Plaid.create({
 		clientName: 'rudget',
 		countryCodes: ['US'],
-		env: 'sandbox',
+		env: window.environment,
 		key: window.plaidPublicKey,
 		product: ['transactions'],
 		onSuccess: plaidSuccess,

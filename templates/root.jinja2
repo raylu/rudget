@@ -7,6 +7,7 @@
 	<body>
 		<button id="plaid_link">link account</button>
 		<script>
+			window.environment = '{{ environment }}';
 			window.plaidPublicKey = '{{ plaid_public_key }}';
 		</script>
 		<script src="static/plaid.js"></script>

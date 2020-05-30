@@ -10,7 +10,10 @@ from db import db
 import plaid
 
 def root(request):
-	return Response.render(request, 'root.jinja2', {'plaid_public_key': config.plaid.public_key})
+	return Response.render(request, 'root.jinja2', {
+        'environment': config.plaid.environment,
+        'plaid_public_key': config.plaid.public_key,
+    })
 
 def plaid_access_token(request):
 	item_id, access_token = plaid.exchange_token(request.body['public_token'])

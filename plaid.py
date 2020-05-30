@@ -35,6 +35,6 @@ def iter_transactions(access_token):
 			break
 
 def _post(endpoint, json):
-	response = rs.post('https://sandbox.plaid.com' + endpoint, json=json)
+	response = rs.post('https://%s.plaid.com%s' % (config.plaid.environment, endpoint), json=json)
 	response.raise_for_status()
 	return response.json()
