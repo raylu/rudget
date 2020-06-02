@@ -15,12 +15,18 @@ def transaction_info():
 		payees[t['name']].append(t)
 		categories[t['category']].append(t)
 
+	transaction_threshold = str((datetime.datetime.now() - datetime.timedelta(days=15 * 7)).date())
 	cat_by_periodicity = []
 	for name, transactions in categories.items():
 		periodicity = group_periodicity(transactions)
-		transactions_list = [{'date': t['date'], 'name': t['name'], 'amount': t['amount']} for t in transactions]
-		cat_by_periodicity.append((name, periodicity, transactions_list))
-	cat_by_periodicity.sort(key=lambda cbp: cbp[1], reverse=True)
+		transactions_list = []
+		for t in transactions:
+			if t['date'] < transaction_threshold:
+				continue
+			transactions_list.append({'date': t['date'], 'name': t['name'], 'amount': t['amount']})
+		if len(transactions_list) > 0:
+			cat_by_periodicity.append((name, periodicity, transactions_list))
+	cat_by_periodicity.sort(key=lambda cbp: cbp[1])
 	return cat_by_periodicity
 
 def group_periodicity(transactions):

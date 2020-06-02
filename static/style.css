@@ -10,6 +10,7 @@ body {
 
 h2 {
 	cursor: pointer;
+	font-weight: normal;
 }
 
 div.category_transactions {
