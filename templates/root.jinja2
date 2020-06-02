@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<title>rudget</title>
+		<link rel="stylesheet" href="/static/style.css">
 		<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
 	</head>
 	<body>
@@ -11,5 +12,9 @@
 			window.plaidPublicKey = '{{ plaid_public_key }}';
 		</script>
 		<script src="static/plaid.js"></script>
+
+		<div id="info">
+		</div>
+		<script src="static/info.js"></script>
 	</body>
 </html>

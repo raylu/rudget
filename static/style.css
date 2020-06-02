@@ -1,0 +1,21 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #000;
+	font-family: sans-serif;
+	color: #ddd;
+}
+
+h2 {
+	cursor: pointer;
+}
+
+div.category_transactions {
+	display: none;
+	background-color: #111;
+}
+div.category_transactions.visible {
+	display: block;
+}

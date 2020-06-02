@@ -20,7 +20,7 @@ def transaction_info():
 		periodicity = group_periodicity(transactions)
 		transactions_list = [{'date': t['date'], 'name': t['name'], 'amount': t['amount']} for t in transactions]
 		cat_by_periodicity.append((name, periodicity, transactions_list))
-	cat_by_periodicity.sort(key=lambda cbp: cbp[1])
+	cat_by_periodicity.sort(key=lambda cbp: cbp[1], reverse=True)
 	return cat_by_periodicity
 
 def group_periodicity(transactions):
