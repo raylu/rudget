@@ -15,7 +15,7 @@ def exchange_token(public_token):
 def auth(access_token):
 	return _post('/auth/get', json={'access_token': access_token})
 
-def iter_transactions(access_token, account_ids):
+def iter_transactions(access_token):
 	offset = 0
 	while True:
 		data = _post('/transactions/get', json={
@@ -23,7 +23,6 @@ def iter_transactions(access_token, account_ids):
 			'start_date': '2000-01-01',
 			'end_date': str(datetime.date.today()),
 			'options': {
-				'account_ids': account_ids,
 				'offset': offset,
 				'count': 500,
 			},

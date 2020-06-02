@@ -10,5 +10,6 @@ CREATE TABLE IF NOT EXISTS plaid_transaction (
 	date TEXT,
 	name TEXT,
 	amount INTEGER,
-	category TEXT
+	category TEXT,
+	UNIQUE(date, name, amount)
 );
