@@ -13,7 +13,7 @@ def main():
 			amount = int(t['amount'] * 100)
 			category = ', '.join(t['category'])
 			transactions.append((t['transaction_id'], t['date'], t['name'], amount, category))
-			print('%s %-50s %6d %s' % (t['date'], t['name'], amount, category))
+			print('%s %-50s %9d %s' % (t['date'], t['name'], amount, category))
 		db.executemany('''
 			INSERT INTO plaid_transaction (transaction_id, date, name, amount, category) VALUES (?, ?, ?, ?, ?)
 			ON CONFLICT(transaction_id) DO UPDATE SET
