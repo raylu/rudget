@@ -7,6 +7,7 @@ from pigwig import PigWig, Response
 
 import config
 from db import db
+import info
 import plaid
 
 def root(request):
@@ -14,6 +15,10 @@ def root(request):
         'environment': config.plaid.environment,
         'plaid_public_key': config.plaid.public_key,
     })
+
+def transaction_info(request):
+	transaction_info = info.transaction_info()
+	return Response.json(transaction_info)
 
 def plaid_access_token(request):
 	item_id, access_token = plaid.exchange_token(request.body['public_token'])
@@ -33,6 +38,7 @@ def static(request, file_path):
 
 routes = [
 	('GET', '/', root),
+	('GET', '/transaction_info', transaction_info),
 	('POST', '/plaid_access_token', plaid_access_token),
 	('GET', '/static/<path:file_path>', static),
 ]
