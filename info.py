@@ -10,7 +10,9 @@ def transaction_info():
 	payees = collections.defaultdict(list)
 	categories = collections.defaultdict(list)
 	for t in iter_transactions():
-		if t['amount'] < 0 or t['category'].startswith('Transfer,'):
+		if t['amount'] < 0:
+			continue
+		if t['category'].startswith('Transfer,') or t['category'] == 'Payment, Credit Card':
 			continue
 		payees[t['name']].append(t)
 		categories[t['category']].append(t)

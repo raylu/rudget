@@ -8,9 +8,30 @@ body {
 	color: #ddd;
 }
 
+div#info {
+	width: 960px;
+	margin: 0 auto;
+}
+
 h2 {
 	cursor: pointer;
 	font-weight: normal;
+}
+
+div.bar {
+	height: 32px;
+	width: 600px;
+	background-color: #222;
+}
+div.bar > div {
+	height: 100%;
+	float: left;
+}
+div.bar > div.accumulated {
+	background-color: #333;
+}
+div.bar > div.category_total {
+	background-color: #777;
 }
 
 div.category_transactions {
