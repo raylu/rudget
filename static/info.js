@@ -18,13 +18,13 @@
 		let categoryTotal = 0;
 		transactions.forEach((t) => {
 			const transactionEl = document.createElement('div');
-			transactionEl.innerText = `${t.date} ${t.name} $${(t.amount/100).toLocaleString()}`;
+			transactionEl.innerText = `${t.date} ${t.name} ${formatCurrency(t.amount/100)}`;
 			transactionsEl.append(transactionEl);
 			categoryTotal += t.amount;
 		});
 
 		const h2 = document.createElement('h2');
-		h2.innerText = `${name} $${(categoryTotal/100).toLocaleString()}`;
+		h2.innerText = `${name} ${formatCurrency(categoryTotal/100)}`;
 		h2.addEventListener('click', (evt) => {
 			transactionsEl.classList.toggle('visible');
 		});
@@ -48,4 +48,8 @@
 
 		accumulator += categoryTotal;
 	});
+
+	function formatCurrency(num) {
+		return num.toLocaleString(undefined, {'style': 'currency', 'currency': 'USD'});
+	}
 })();

@@ -16,6 +16,10 @@ div#info {
 h2 {
 	cursor: pointer;
 	font-weight: normal;
+	color: #7ac;
+}
+h2:hover {
+	color: #8ce;
 }
 
 div.bar {

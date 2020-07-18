@@ -1,4 +1,4 @@
 jinja2
 pigwig
-import requests
+requests
 toml
