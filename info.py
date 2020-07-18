@@ -12,7 +12,11 @@ def transaction_info():
 	for t in iter_transactions():
 		if t['amount'] < 0:
 			continue
-		if t['category'].startswith('Transfer,') or t['category'] == 'Payment, Credit Card':
+		if t['category'].startswith('Transfer,') and not t['category'].startswith('Transfer, Third Party'):
+			continue
+		if t['category'] == 'Payment, Credit Card':
+			continue
+		if t['name'].startswith('FID BKG SVC LLC MONEYLINE PPD ID:'):
 			continue
 		payees[t['name']].append(t)
 		categories[t['category']].append(t)
