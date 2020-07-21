@@ -1,20 +1,18 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>rudget</title>
-		<link rel="stylesheet" href="/static/style.css">
-		<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
-	</head>
-	<body>
-		<button id="plaid_link">link account</button>
-		<script>
-			window.environment = '{{ environment }}';
-			window.plaidPublicKey = '{{ plaid_public_key }}';
-		</script>
-		<script src="static/plaid.js"></script>
+{% extends 'base.jinja2' %}
 
-		<div id="info">
-		</div>
-		<script src="static/info.js"></script>
-	</body>
-</html>
+{% block head %}
+	<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+{% endblock head %}
+
+{% block body %}
+	<h1>Outcomes</h1>
+
+	<form method="post" action="/login">
+		E-mail: <input type="text" name="email">
+		<br>
+		Password: <input type="password" name="password">
+		<br>
+		<input type="submit" value="Login" name="login">
+		<input type="submit" value="Register" name="register">
+	</form>
+{% endblock body %}

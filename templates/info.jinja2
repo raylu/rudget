@@ -1,0 +1,18 @@
+{% extends 'base.jinja2' %}
+
+{% block head %}
+	<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+{% endblock head %}
+
+{% block body %}
+	<button id="plaid_link">link account</button>
+	<script>
+		window.environment = '{{ environment }}';
+		window.plaidPublicKey = '{{ plaid_public_key }}';
+	</script>
+	<script src="static/plaid.js"></script>
+
+	<div id="info">
+	</div>
+	<script src="static/info.js"></script>
+{% endblock body %}

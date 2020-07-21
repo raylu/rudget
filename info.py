@@ -3,7 +3,7 @@
 import collections
 import datetime
 
-from db import db
+import db
 import plaid
 
 def transaction_info():

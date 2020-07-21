@@ -1,4 +1,8 @@
+argon2_cffi
+httpx
 jinja2
+passlib
 pigwig
-requests
+psycopg2-binary
+sqlalchemy
 toml
