@@ -6,10 +6,10 @@ import datetime
 import db
 import plaid
 
-def transaction_info():
+def transaction_info(user_id):
 	payees = collections.defaultdict(list)
 	categories = collections.defaultdict(list)
-	for t in iter_transactions():
+	for t in get_transactions(user_id):
 		if t['amount'] < 0:
 			continue
 		if t['category'].startswith('Transfer,') and not t['category'].startswith('Transfer, Third Party'):
@@ -65,14 +65,9 @@ def transactions_periodicity(interval, last_interval, amount, last_amount):
 		periodicity += 0.4
 	return periodicity
 
-def iter_transactions():
-	with db:
-		cur = db.execute('''
-			SELECT date, name, amount, category
-			FROM plaid_transaction ORDER BY date ASC
-		''')
-		while True:
-			row = cur.fetchone()
-			if row is None:
-				break
-			yield row
+def get_transactions(user_id):
+	return db.PlaidTransaction.query \
+		.join(db.PlaidTransaction.account) \
+		.join(db.PlaidAccount.item) \
+		.join(db.PlaidItem.user) \
+		.filter(db.User.user_id == user_id).all()

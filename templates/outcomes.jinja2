@@ -5,13 +5,10 @@
 {% endblock head %}
 
 {% block body %}
-	<button id="plaid_link">link account</button>
-	<script>
-		window.environment = '{{ environment }}';
-		window.plaidPublicKey = '{{ plaid_public_key }}';
-	</script>
-	<script src="static/plaid.js"></script>
-
+	<a href="/accounts">Accounts</a>
+	<form method="post" action="/fetch_transactions">
+		<input type="submit" value="Fetch Transactions">
+	</form>
 	<div id="info">
 	</div>
 	<script src="static/info.js"></script>

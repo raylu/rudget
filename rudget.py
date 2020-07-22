@@ -6,11 +6,13 @@ from os import path
 import traceback
 
 from pigwig import PigWig, Response
+from sqlalchemy.orm import joinedload
 
 import config
 import db
 import info
 import plaid
+import transactions
 
 def response_done_handler(request, response):
 	try:
@@ -20,10 +22,7 @@ def response_done_handler(request, response):
 		traceback.print_exc()
 
 def root(request):
-	return Response.render(request, 'root.jinja2', {
-        'environment': config.plaid.environment,
-        'plaid_public_key': config.plaid.public_key,
-    })
+	return Response.render(request, 'root.jinja2', {})
 
 def login(request):
 	email = request.body['email']
@@ -33,13 +32,47 @@ def login(request):
 		db.session.commit()
 	else:
 		user = db.User.login(email, password)
-	response = Response(code=303, location='/')
+		if user is None:
+			return Response('bad email/password', 403)
+	response = Response(code=303, location='/outcomes')
 	response.set_secure_cookie(request, 'user_id', user.user_id, secure=True,
 			max_age=datetime.timedelta(days=30))
 	return response
 
-def transaction_info(request):
-	transaction_info = info.transaction_info()
+def outcomes(request):
+	return Response.render(request, 'outcomes.jinja2', {})
+
+def authed(view_fn):
+	def wrapped(request):
+		user_id = request.get_secure_cookie('user_id', datetime.timedelta(days=30))
+		if user_id is None:
+			return Response(code=401)
+		return view_fn(request, user_id)
+	return wrapped
+
+@authed
+def accounts(request, user_id):
+	items = db.PlaidItem.query \
+			.filter(db.PlaidItem.user_id == user_id) \
+			.order_by(db.PlaidItem.plaid_item_id) \
+			.options(joinedload(db.PlaidItem.accounts)) \
+			.all()
+	return Response.render(request, 'accounts.jinja2', {
+        'environment': config.plaid.environment,
+        'plaid_public_key': config.plaid.public_key,
+		'items': items,
+    })
+
+@authed
+def fetch_transactions(request, user_id):
+	items = db.PlaidItem.query.filter(db.PlaidItem.user_id == user_id).all()
+	for item in items:
+		transactions.process_item(item)
+	return Response(code=303, location='/outcomes')
+
+@authed
+def transaction_info(request, user_id):
+	transaction_info = info.transaction_info(int(user_id))
 	return Response.json(transaction_info)
 
 def plaid_access_token(request):
@@ -61,6 +94,9 @@ def static(request, file_path):
 routes = [
 	('GET', '/', root),
 	('POST', '/login', login),
+	('GET', '/outcomes', outcomes),
+	('GET', '/accounts', accounts),
+	('POST', '/fetch_transactions', fetch_transactions),
 	('GET', '/transaction_info', transaction_info),
 	('POST', '/plaid_access_token', plaid_access_token),
 	('GET', '/static/<path:file_path>', static),

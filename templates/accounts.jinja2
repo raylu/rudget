@@ -1,0 +1,28 @@
+{% extends 'base.jinja2' %}
+
+{% block head %}
+	<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+{% endblock head %}
+
+{% block body %}
+	{% for item in items %}
+		<section>
+			{{ item.plaid_item_id }}
+			{% for account in item.accounts %}
+				<div>
+					{{ account.name }} ({{ account.mask }}) {{ account.subtype }}
+				</div>
+			{% endfor %}
+		</section>
+	{% endfor %}
+
+	<div>
+		<button id="plaid_link">link account</button>
+	</div>
+
+	<script>
+		window.environment = '{{ environment }}';
+		window.plaidPublicKey = '{{ plaid_public_key }}';
+	</script>
+	<script src="static/plaid.js"></script>
+{% endblock body %}
