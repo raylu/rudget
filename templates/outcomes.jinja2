@@ -5,11 +5,16 @@
 {% endblock head %}
 
 {% block body %}
-	<a href="/accounts">Accounts</a>
-	<form method="post" action="/fetch_transactions">
-		<input type="submit" value="Fetch Transactions">
-	</form>
+	<nav>
+		<h1>Outcomes</h1>
+		<a href="/accounts">Accounts</a>
+		<form method="post" action="/fetch_transactions">
+			<input type="submit" value="Fetch Transactions">
+		</form>
+	</nav>
+
 	<div id="info">
+		<h2>Spending by periodicity</h2>
 	</div>
 	<script src="static/info.js"></script>
 {% endblock body %}

@@ -3,45 +3,59 @@
 }
 
 body {
-	background-color: #eee;
-	font-family: sans-serif;
+	background-color: #fff;
+	font-family: Roboto, sans-serif;
 	color: #111;
+
+	display: flex;
+	align-items: stretch;
+}
+
+nav {
+	width: 175px;
+	border-right: 1px solid #f2f2f2;
 }
 
 div#info {
 	width: 960px;
-	margin: 0 auto;
+	margin-left: 20px;
 }
 
 h2 {
+	font-weight: bold;
+	font-size: 21px;
+	line-height: 25px;
+}
+
+h3 {
 	cursor: pointer;
+	font-size: 14px;
 	font-weight: normal;
 	color: #7ac;
 }
-h2:hover {
+h3:hover {
 	color: #8ce;
 }
 
 div.bar {
 	height: 32px;
 	width: 600px;
-	background-color: #999;
+	border: 1px solid #f2f2f2;
+	box-sizing: content-box;
 }
 div.bar > div {
 	height: 100%;
 	float: left;
 }
 div.bar > div.accumulated {
-	background-color: #777;
 }
 div.bar > div.category_total {
-	background-color: #888;
+	background-color: #f2c94c;
 }
 
-div.category_transactions {
+section.category_transactions {
 	display: none;
-	background-color: #aaa;
 }
-div.category_transactions.visible {
+section.category_transactions.visible {
 	display: block;
 }

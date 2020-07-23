@@ -13,7 +13,7 @@
 		const bar = document.createElement('div');
 		bar.classList.add('bar');
 
-		const transactionsEl = document.createElement('div');
+		const transactionsEl = document.createElement('section');
 		transactionsEl.classList.add('category_transactions');
 		let categoryTotal = 0;
 		transactions.forEach((t) => {
@@ -23,16 +23,16 @@
 			categoryTotal += t.amount;
 		});
 
-		const h2 = document.createElement('h2');
-		h2.innerText = `${name} ${formatCurrency(categoryTotal/100)}`;
-		h2.addEventListener('click', (evt) => {
+		const h3 = document.createElement('h3');
+		h3.innerText = `${name} ${formatCurrency(categoryTotal/100)}`;
+		h3.addEventListener('click', (evt) => {
 			transactionsEl.classList.toggle('visible');
 		});
 
 		categoryMeta.push({'bar': bar, 'categoryTotal': categoryTotal});
 		total += categoryTotal;
 
-		infoEl.append(h2, `Periodicity: ${periodicity.toFixed(2)}`, bar, transactionsEl);
+		infoEl.append(h3, `Periodicity: ${periodicity.toFixed(2)}`, bar, transactionsEl);
 	});
 
 	let accumulator = 0;
