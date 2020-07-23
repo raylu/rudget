@@ -23,16 +23,24 @@
 			categoryTotal += t.amount;
 		});
 
-		const h3 = document.createElement('h3');
-		h3.innerText = `${name} ${formatCurrency(categoryTotal/100)}`;
-		h3.addEventListener('click', (evt) => {
+		const categoryLabel = document.createElement('div');
+		categoryLabel.classList.add('line');
+		categoryLabel.classList.add('category_label');
+		const categoryName = document.createElement('div');
+		const categoryPeriodicity = document.createElement('div');
+		const categoryAmount = document.createElement('div');
+		categoryName.innerText = name;
+		categoryPeriodicity.innerText = periodicity.toFixed(2);
+		categoryAmount.innerText = formatCurrency(categoryTotal/100);
+		categoryLabel.append(categoryName, categoryPeriodicity, categoryAmount);
+		categoryLabel.addEventListener('click', (evt) => {
 			transactionsEl.classList.toggle('visible');
 		});
 
 		categoryMeta.push({'bar': bar, 'categoryTotal': categoryTotal});
 		total += categoryTotal;
 
-		infoEl.append(h3, `Periodicity: ${periodicity.toFixed(2)}`, bar, transactionsEl);
+		infoEl.append(categoryLabel, bar, transactionsEl);
 	});
 
 	let accumulator = 0;

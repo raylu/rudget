@@ -27,14 +27,30 @@ h2 {
 	line-height: 25px;
 }
 
-h3 {
-	cursor: pointer;
-	font-size: 14px;
-	font-weight: normal;
-	color: #7ac;
+div.line {
+	display: flex; /* get rid of whitespace */
 }
-h3:hover {
-	color: #8ce;
+div.line > div {
+	display: inline-block;
+	width: 100px;
+}
+div.line > div:nth-child(1) {
+	width: 400px;
+}
+
+div.header {
+	font-weight: bold;
+}
+
+div.category_label {
+	margin-top: 16px;
+	font-size: 16px;
+	font-weight: normal;
+	color: #37a;
+	cursor: pointer;
+}
+div.category_label:hover {
+	color: #59c;
 }
 
 div.bar {
