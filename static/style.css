@@ -25,22 +25,22 @@ h2:hover {
 div.bar {
 	height: 32px;
 	width: 600px;
-	background-color: #222;
+	background-color: #999;
 }
 div.bar > div {
 	height: 100%;
 	float: left;
 }
 div.bar > div.accumulated {
-	background-color: #333;
+	background-color: #777;
 }
 div.bar > div.category_total {
-	background-color: #777;
+	background-color: #888;
 }
 
 div.category_transactions {
 	display: none;
-	background-color: #111;
+	background-color: #aaa;
 }
 div.category_transactions.visible {
 	display: block;

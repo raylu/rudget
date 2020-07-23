@@ -67,6 +67,7 @@ class PlaidTransaction(Base):
 	category_id = Column(Integer, ForeignKey('categories.category_id'), nullable=False)
 
 	account = relationship(PlaidAccount)
+	category = relationship('Category')
 
 class Category(Base):
 	__tablename__ = 'categories'
