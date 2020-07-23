@@ -16,8 +16,9 @@ def auth(access_token):
 	return _post('/auth/get', json={'access_token': access_token})
 
 class TransactionIter:
-	def __init__(self, access_token):
+	def __init__(self, access_token, account_ids):
 		self.access_token = access_token
+		self.account_ids = account_ids
 		self.total_offset = 0
 		self.data_offset = 0
 		self.data = self.post()
@@ -29,6 +30,7 @@ class TransactionIter:
 			'start_date': '2000-01-01',
 			'end_date': str(datetime.date.today()),
 			'options': {
+				'account_ids': self.account_ids,
 				'offset': self.total_offset,
 				'count': 500,
 			},

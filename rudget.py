@@ -65,9 +65,7 @@ def accounts(request, user_id):
 
 @authed
 def fetch_transactions(request, user_id):
-	items = db.PlaidItem.query.filter(db.PlaidItem.user_id == user_id).all()
-	for item in items:
-		transactions.process_item(item)
+	transactions.process_user(user_id)
 	return Response(code=303, location='/outcomes')
 
 @authed

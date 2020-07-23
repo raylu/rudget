@@ -50,7 +50,7 @@ class PlaidAccount(Base):
 	plaid_item_id = Column(Integer, ForeignKey('plaid_items.plaid_item_id'), nullable=False)
 	account_id = Column(String, nullable=False, unique=True)
 	name = Column(String, nullable=False)
-	mask = Column(String, nullable=False)
+	mask = Column(String, nullable=True)
 	subtype = Column(String, nullable=False)
 
 	item = relationship(PlaidItem)

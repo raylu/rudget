@@ -32,7 +32,9 @@ def transaction_info(user_id):
 		for t in transactions:
 			if t.date < transaction_threshold:
 				continue
-			transactions_list.append({'date': t.date.isoformat(), 'name': t.name, 'amount': t.amount})
+			transactions_list.append({
+				'date': t.date.isoformat(), 'name': t.name, 'amount': t.amount, 'account': t.account.name,
+			})
 		if len(transactions_list) > 0:
 			cat_by_periodicity.append((name, periodicity, transactions_list))
 	cat_by_periodicity.sort(key=lambda cbp: cbp[1])
@@ -73,5 +75,5 @@ def get_transactions(user_id):
 		.join(db.PlaidAccount.item) \
 		.join(db.PlaidItem.user) \
 		.filter(db.User.user_id == user_id) \
-		.options(joinedload(db.PlaidTransaction.category)) \
+		.options(joinedload(db.PlaidTransaction.category), joinedload(db.PlaidTransaction.account)) \
 		.all()

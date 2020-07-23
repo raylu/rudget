@@ -2,33 +2,47 @@
 
 import datetime
 
+from sqlalchemy.orm import load_only
+
 import db
 import plaid
 
 def main():
-	items = db.PlaidItem.query.all()
-	for item in items:
-		process_item(item)
+	for user in db.User.query.all():
+		process_user(user.id)
 
-def process_item(item):
-	print('getting transactions for', item.plaid_item_id)
-	transactions = plaid.TransactionIter(item.access_token)
-	plaid_accounts = handle_accounts(item.plaid_item_id, transactions.accounts)
-
+def process_user(user_id):
 	transaction_query = db.PlaidTransaction.query \
 			.join(db.PlaidTransaction.account) \
-			.filter(db.PlaidAccount.plaid_item_id == item.plaid_item_id)
-	plaid_transactions = {}
-	for plaid_transaction in transaction_query.all():
-		key = (plaid_transaction.date, plaid_transaction.name, plaid_transaction.amount)
-		plaid_transactions[key] = plaid_transaction
+			.join(db.PlaidAccount.item) \
+			.filter(db.PlaidItem.user_id == user_id) \
+			.options(load_only(db.PlaidTransaction.transaction_id))
+	plaid_transactions = frozenset(pt.transaction_id for pt in transaction_query.all())
+
+	items = db.PlaidItem.query.filter(db.PlaidItem.user_id == user_id).all()
+	seen_accounts = set()
+	for item in items:
+		process_item(item, plaid_transactions, seen_accounts)
+
+def process_item(item, plaid_transactions, seen_accounts):
+	plaid_accounts = handle_accounts(item.plaid_item_id, plaid.get_accounts(item.access_token))
+	account_ids = []
+	for plaid_account in plaid_accounts.values():
+		key = (plaid_account.subtype, plaid_account.mask)
+		if key not in seen_accounts:
+			account_ids.append(plaid_account.account_id)
+			seen_accounts.add(key)
+		else:
+			print('skipping', key)
+
+	print('getting transactions for', item.plaid_item_id)
+	transactions = plaid.TransactionIter(item.access_token, account_ids)
 
 	for t in transactions:
-		amount = int(t['amount'] * 100)
-		date = datetime.datetime.strptime(t['date'], '%Y-%m-%d').date()
-		key = (date, t['name'], amount)
-		if key not in plaid_transactions:
+		if t['transaction_id'] not in plaid_transactions:
 			plaid_account_id = plaid_accounts[t['account_id']].plaid_account_id
+			date = datetime.datetime.strptime(t['date'], '%Y-%m-%d').date()
+			amount = int(t['amount'] * 100)
 			plaid_transaction = db.PlaidTransaction(plaid_account_id=plaid_account_id,
 					transaction_id=t['transaction_id'], date=date, name=t['name'],
 					amount=amount, category_id=int(t['category_id']))

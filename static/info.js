@@ -18,7 +18,7 @@
 		let categoryTotal = 0;
 		transactions.forEach((t) => {
 			const transactionEl = document.createElement('div');
-			transactionEl.innerText = `${t.date} ${t.name} ${formatCurrency(t.amount/100)}`;
+			transactionEl.innerText = `${t.date} ${t.account} ${t.name} ${formatCurrency(t.amount/100)}`;
 			transactionsEl.append(transactionEl);
 			categoryTotal += t.amount;
 		});
