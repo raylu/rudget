@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import datetime
+
 import db
 import plaid
 
@@ -23,11 +25,12 @@ def process_item(item):
 
 	for t in transactions:
 		amount = int(t['amount'] * 100)
-		key = (t['date'], t['name'], amount)
+		date = datetime.datetime.strptime(t['date'], '%Y-%m-%d').date()
+		key = (date, t['name'], amount)
 		if key not in plaid_transactions:
 			plaid_account_id = plaid_accounts[t['account_id']].plaid_account_id
 			plaid_transaction = db.PlaidTransaction(plaid_account_id=plaid_account_id,
-					transaction_id=t['transaction_id'], date=t['date'], name=t['name'],
+					transaction_id=t['transaction_id'], date=date, name=t['name'],
 					amount=amount, category_id=int(t['category_id']))
 			db.session.add(plaid_transaction)
 		#print('%s %-50s %9d %s' % (t['date'], t['name'], amount, ', '.join(t['category'])))
