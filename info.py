@@ -6,7 +6,6 @@ import datetime
 from sqlalchemy.orm import joinedload
 
 import db
-import plaid
 
 def transaction_info(user_id):
 	payees = collections.defaultdict(list)

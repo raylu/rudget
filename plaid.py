@@ -23,7 +23,7 @@ class TransactionIter:
 		self.data_offset = 0
 		self.data = self.post()
 		self.accounts = self.data['accounts']
-	
+
 	def post(self):
 		return _post('/transactions/get', json={
 			'access_token': self.access_token,

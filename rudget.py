@@ -70,14 +70,13 @@ def fetch_transactions(request, user_id):
 
 @authed
 def transaction_info(request, user_id):
-	transaction_info = info.transaction_info(int(user_id))
-	return Response.json(transaction_info)
+	return Response.json(info.transaction_info(int(user_id)))
 
-def plaid_access_token(request):
+@authed
+def plaid_access_token(request, user_id):
 	item_id, access_token = plaid.exchange_token(request.body['public_token'])
-	with db:
-		db.execute('INSERT INTO plaid_item (item_id, access_token) VALUES(?, ?)',
-				(item_id, access_token))
+	db.session.add(db.PlaidItem(user_id=user_id, item_id=item_id, access_token=access_token))
+	db.session.commit()
 	return Response.json(None)
 
 def static(request, file_path):
