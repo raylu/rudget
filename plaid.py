@@ -1,10 +1,10 @@
 import datetime
 
-import requests
+import httpx
 
 import config
 
-rs = requests.Session()
+hc = httpx.Client()
 
 def exchange_token(public_token):
 	data = _post('/item/public_token/exchange', json={
@@ -58,7 +58,7 @@ def get_accounts(access_token):
 def get_categories():
 	# why does this require a JSON object?
 	# https://github.com/plaid/plaid-python/blob/master/plaid/api/categories.py
-	response = requests.post('https://%s.plaid.com/categories/get' % config.plaid.environment, json={})
+	response = hc.post('https://%s.plaid.com/categories/get' % config.plaid.environment, json={})
 	response.raise_for_status()
 	return response.json()['categories']
 
@@ -67,6 +67,6 @@ def _post(endpoint, json):
 		'client_id': config.plaid.client_id,
 		'secret': config.plaid.development,
 	})
-	response = rs.post('https://%s.plaid.com%s' % (config.plaid.environment, endpoint), json=json)
+	response = hc.post('https://%s.plaid.com%s' % (config.plaid.environment, endpoint), json=json)
 	response.raise_for_status()
 	return response.json()
