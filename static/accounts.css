@@ -1,0 +1,14 @@
+h2.account_name {
+	width: 600px;
+	cursor: pointer;
+	border: 1px solid #fff;
+}
+h2.account_name:hover,
+h2.account_name.editing {
+	background-color: #eee;
+	border-color: #ccc;
+}
+
+div.link_account {
+	margin-top: 2em;
+}

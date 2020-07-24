@@ -2,12 +2,17 @@
 
 {% block head %}
 	<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+	<link rel="stylesheet" href="/static/accounts.css">
 {% endblock head %}
 
 {% block body %}
+	<a href="/outcomes">back</a>
+
 	{% for item in items %}
 		<section>
-			{{ item.plaid_item_id }}
+			<h2 class="account_name" contenteditable="false" data-id="{{ item.plaid_item_id }}">
+				{{ item.name or '(unnamed)' }}
+			</h2>
 			{% for account in item.accounts %}
 				<div>
 					{{ account.name }} ({{ account.mask }}) {{ account.subtype }}
@@ -16,10 +21,11 @@
 		</section>
 	{% endfor %}
 
-	<div>
+	<div class="link_account">
 		<button id="plaid_link">link account</button>
 	</div>
 
+	<script src="static/accounts.js"></script>
 	<script>
 		window.environment = '{{ environment }}';
 		window.plaidPublicKey = '{{ plaid_public_key }}';

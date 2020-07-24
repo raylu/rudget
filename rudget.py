@@ -80,6 +80,15 @@ def accounts(request, user_id):
     })
 
 @authed
+def accounts_update(request, user_id):
+	item = db.PlaidItem.query.get(int(request.body['plaid_item_id']))
+	if item.user_id != user_id:
+		return Response(code=403)
+	item.name = request.body['name'] or None
+	db.session.commit()
+	return Response.json(True)
+
+@authed
 def fetch_transactions(request, user_id):
 	transactions.process_user(user_id)
 	return Response(code=303, location='/outcomes')
@@ -122,6 +131,7 @@ routes = [
 	('GET', '/outcomes', outcomes),
 	('GET', '/demo', demo),
 	('GET', '/accounts', accounts),
+	('POST', '/accounts/update', accounts_update),
 	('POST', '/fetch_transactions', fetch_transactions),
 	('GET', '/transaction_info', transaction_info),
 	('GET', '/transaction_info_demo', transaction_info_demo),

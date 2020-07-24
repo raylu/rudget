@@ -45,7 +45,7 @@ rules:
   curly: 'off'
   default-case: error
   dot-location: error
-  dot-notation: error
+  dot-notation: 'off'
   eol-last: error
   eqeqeq: 'off'
   func-call-spacing: error

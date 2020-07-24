@@ -38,6 +38,7 @@ class PlaidItem(Base):
 	user_id = Column(Integer, ForeignKey('users.user_id'), nullable=False)
 	item_id = Column(String, nullable=False, unique=True)
 	access_token = Column(String, nullable=False, unique=True)
+	name = Column(String, nullable=True)
 
 	user = relationship(User)
 	accounts = relationship('PlaidAccount')
