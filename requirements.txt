@@ -1,4 +1,5 @@
 argon2_cffi
+eventlet
 httpx
 jinja2
 passlib

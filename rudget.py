@@ -1,10 +1,21 @@
 #!/usr/bin/env python3
 
+# pylint: disable=wrong-import-order,wrong-import-position,ungrouped-imports
+
+import sys
+if len(sys.argv) == 3 and sys.argv[2] == '--reload':
+	import pigwig.reloader_linux
+	pigwig.reloader_linux.init()
+
+import eventlet
+eventlet.monkey_patch()
+
 import datetime
 import mimetypes
 from os import path
 import traceback
 
+import eventlet.wsgi
 from pigwig import PigWig, Response
 from sqlalchemy.orm import joinedload
 
@@ -103,9 +114,10 @@ app = PigWig(routes, template_dir='templates', cookie_secret=config.pigwig.cooki
 		response_done_handler=response_done_handler)
 
 if __name__ == '__main__':
-	import sys
-	if len(sys.argv) == 2:
+	if len(sys.argv) >= 2:
 		port = int(sys.argv[1])
 	else:
 		port = None
-	app.main(port=port)
+	if len(sys.argv) == 3 and sys.argv[2] == '--reload':
+		app.template_engine.jinja_env.auto_reload = True
+	eventlet.wsgi.server(eventlet.listen(('127.1', port)), app)
