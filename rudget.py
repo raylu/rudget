@@ -21,6 +21,7 @@ from sqlalchemy.orm import joinedload
 
 import config
 import db
+import demo_transactions
 import info
 import plaid
 import transactions
@@ -85,18 +86,19 @@ def fetch_transactions(request, user_id):
 
 @authed
 def transaction_info(request, user_id):
-	transactions = db.PlaidTransaction.query \
+	plaid_transactions = db.PlaidTransaction.query \
 		.join(db.PlaidTransaction.account) \
 		.join(db.PlaidAccount.item) \
 		.join(db.PlaidItem.user) \
 		.filter(db.User.user_id == user_id) \
 		.options(joinedload(db.PlaidTransaction.category), joinedload(db.PlaidTransaction.account)) \
+		.order_by(db.PlaidTransaction.date) \
 		.all()
-	return Response.json(info.transaction_info(transactions))
+	return Response.json(info.transaction_info(plaid_transactions))
 
 def transaction_info_demo(request):
-	transactions = []
-	return Response.json(info.transaction_info(transactions))
+	fake_transactions = demo_transactions.transactions()
+	return Response.json(info.transaction_info(fake_transactions))
 
 @authed
 def plaid_access_token(request, user_id):
