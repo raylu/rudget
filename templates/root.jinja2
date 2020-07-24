@@ -7,14 +7,18 @@
 {% block body %}
 	<h1>Outcomes</h1>
 
-	<form method="post" action="/login">
-		E-mail: <input type="text" name="email">
-		<br>
-		Password: <input type="password" name="password">
-		<br>
-		<input type="submit" value="Login" name="login">
-		<input type="submit" value="Register" name="register">
-	</form>
+	{% if logged_in %}
+		<a href="/outcomes">Go to the app</a>
+	{% else %}
+		<form method="post" action="/login">
+			E-mail: <input type="text" name="email">
+			<br>
+			Password: <input type="password" name="password">
+			<br>
+			<input type="submit" value="Login" name="login">
+			<input type="submit" value="Register" name="register">
+		</form>
+	{% endif %}
 
 	<h2>A spending analyzer for busy people</h2>
 	<p class="home_info">

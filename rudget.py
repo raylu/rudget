@@ -33,7 +33,8 @@ def response_done_handler(request, response):
 		traceback.print_exc()
 
 def root(request):
-	return Response.render(request, 'root.jinja2', {})
+	user_id = request.get_secure_cookie('user_id', datetime.timedelta(days=30))
+	return Response.render(request, 'root.jinja2', {'logged_in': user_id is not None})
 
 def login(request):
 	email = request.body['email']
@@ -58,7 +59,7 @@ def authed(view_fn):
 		user_id = request.get_secure_cookie('user_id', datetime.timedelta(days=30))
 		if user_id is None:
 			return Response(code=401)
-		return view_fn(request, user_id)
+		return view_fn(request, int(user_id))
 	return wrapped
 
 @authed
