@@ -9,8 +9,9 @@ nav {
 }
 
 div#info {
-	width: 960px;
+	width: 600px;
 	margin-left: 20px;
+	padding-bottom: 100px;
 }
 
 h2 {
@@ -66,4 +67,15 @@ section.category_transactions {
 }
 section.category_transactions.visible {
 	display: block;
+}
+
+div.transaction > div {
+	display: inline-block;
+	width: 100px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+div.transaction > div:nth-child(3) {
+	width: 300px;
 }

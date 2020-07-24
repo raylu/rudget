@@ -21,7 +21,7 @@ class FakeTransaction:
 
 def transactions():
 	today = datetime.date.today()
-	account = FakeAccount('personal', 'checking')
+	account = FakeAccount('Personal', 'checking')
 	cat_loans = FakeCategory('Service, Financial, Loans and Mortgages')
 	cat_games = FakeCategory('Shops, Computers and Electronics, Video Games')
 	cat_dept = FakeCategory('Shops, Department Stores')
