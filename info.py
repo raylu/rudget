@@ -21,17 +21,17 @@ def transaction_info(transactions):
 
 	transaction_threshold = datetime.date.today() - datetime.timedelta(days=15 * 7)
 	cat_by_periodicity = []
-	for name, transactions in categories.items():
-		periodicity = group_periodicity(transactions)
-		transactions_list = []
-		for t in transactions:
+	for name, cat_transactions in categories.items():
+		periodicity = group_periodicity(cat_transactions)
+		displayed_transactions = []
+		for t in cat_transactions:
 			if t.date < transaction_threshold:
 				continue
-			transactions_list.append({
+			displayed_transactions.append({
 				'date': t.date.isoformat(), 'name': t.name, 'amount': t.amount, 'account': t.account.name,
 			})
-		if len(transactions_list) > 0:
-			cat_by_periodicity.append((name, periodicity, transactions_list))
+		if len(displayed_transactions) > 0:
+			cat_by_periodicity.append((name, periodicity, displayed_transactions))
 	cat_by_periodicity.sort(key=lambda cbp: cbp[1])
 	return cat_by_periodicity
 

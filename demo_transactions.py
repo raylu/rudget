@@ -35,7 +35,7 @@ def transactions():
 	def ft(days, amount, name, category):
 		return FakeTransaction(today - datetime.timedelta(days), amount, name, account, category)
 
-	transactions = [
+	t = [
 		ft(5, 287000, 'CENLAR Mortgage', cat_loans),
 		ft(35, 287000, 'CENLAR Mortgage', cat_loans),
 		ft(66, 287000, 'CENLAR Mortgage', cat_loans),
@@ -79,5 +79,5 @@ def transactions():
 		ft(28, 10082, '99 RANCH #1772', cat_groceries),
 		ft(1, 5623, 'Nintendo', cat_entertainment),
 	]
-	transactions.sort(key=operator.attrgetter('date'))
-	return transactions
+	t.sort(key=operator.attrgetter('date'))
+	return t
