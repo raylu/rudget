@@ -2,16 +2,20 @@
 
 {% block head %}
 	<link rel="stylesheet" href="/static/outcomes.css">
-	<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+	{% if not demo %}
+		<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+	{% endif %}
 {% endblock head %}
 
 {% block body %}
 	<nav>
 		<h1>Outcomes</h1>
-		<a href="/accounts">Accounts</a>
-		<form method="post" action="/fetch_transactions">
-			<input type="submit" value="Fetch Transactions">
-		</form>
+		{% if not demo %}
+			<a href="/accounts">Accounts</a>
+			<form method="post" action="/fetch_transactions">
+				<input type="submit" value="Fetch Transactions">
+			</form>
+		{% endif %}
 	</nav>
 
 	<div id="info">
@@ -22,5 +26,8 @@
 			<div>Amount</div>
 		</div>
 	</div>
+	{% if demo %}
+	<script>window.demo = true;</script>
+	{% endif %}
 	<script src="static/info.js"></script>
 {% endblock body %}

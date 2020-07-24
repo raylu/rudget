@@ -3,14 +3,10 @@
 import collections
 import datetime
 
-from sqlalchemy.orm import joinedload
-
-import db
-
-def transaction_info(user_id):
+def transaction_info(transactions):
 	payees = collections.defaultdict(list)
 	categories = collections.defaultdict(list)
-	for t in get_transactions(user_id):
+	for t in transactions:
 		if t.amount < 0:
 			continue
 		category = t.category.full_name
@@ -67,12 +63,3 @@ def transactions_periodicity(interval, last_interval, amount, last_amount):
 	if abs(amount - last_amount) / last_amount < 0.4:
 		periodicity += 0.4
 	return periodicity
-
-def get_transactions(user_id):
-	return db.PlaidTransaction.query \
-		.join(db.PlaidTransaction.account) \
-		.join(db.PlaidAccount.item) \
-		.join(db.PlaidItem.user) \
-		.filter(db.User.user_id == user_id) \
-		.options(joinedload(db.PlaidTransaction.category), joinedload(db.PlaidTransaction.account)) \
-		.all()

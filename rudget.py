@@ -54,6 +54,9 @@ def login(request):
 def outcomes(request):
 	return Response.render(request, 'outcomes.jinja2', {})
 
+def demo(request):
+	return Response.render(request, 'outcomes.jinja2', {'demo': True})
+
 def authed(view_fn):
 	def wrapped(request):
 		user_id = request.get_secure_cookie('user_id', datetime.timedelta(days=30))
@@ -82,7 +85,18 @@ def fetch_transactions(request, user_id):
 
 @authed
 def transaction_info(request, user_id):
-	return Response.json(info.transaction_info(int(user_id)))
+	transactions = db.PlaidTransaction.query \
+		.join(db.PlaidTransaction.account) \
+		.join(db.PlaidAccount.item) \
+		.join(db.PlaidItem.user) \
+		.filter(db.User.user_id == user_id) \
+		.options(joinedload(db.PlaidTransaction.category), joinedload(db.PlaidTransaction.account)) \
+		.all()
+	return Response.json(info.transaction_info(transactions))
+
+def transaction_info_demo(request):
+	transactions = []
+	return Response.json(info.transaction_info(transactions))
 
 @authed
 def plaid_access_token(request, user_id):
@@ -104,9 +118,11 @@ routes = [
 	('GET', '/', root),
 	('POST', '/login', login),
 	('GET', '/outcomes', outcomes),
+	('GET', '/demo', demo),
 	('GET', '/accounts', accounts),
 	('POST', '/fetch_transactions', fetch_transactions),
 	('GET', '/transaction_info', transaction_info),
+	('GET', '/transaction_info_demo', transaction_info_demo),
 	('POST', '/plaid_access_token', plaid_access_token),
 	('GET', '/static/<path:file_path>', static),
 ]

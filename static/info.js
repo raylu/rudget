@@ -1,6 +1,10 @@
 'use strict';
 (async () => {
-	const response = await fetch('/transaction_info');
+	let url = '/transaction_info';
+	if (window.demo) {
+		url += '_demo';
+	}
+	const response = await fetch(url);
 	const categories = await response.json();
 
 	const categoryMeta = [];
