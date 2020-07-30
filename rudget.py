@@ -43,11 +43,13 @@ def login(request):
 	if 'register' in request.body:
 		user = db.User.register(email, password)
 		db.session.commit()
+		location = '/accounts'
 	else:
 		user = db.User.login(email, password)
 		if user is None:
 			return Response('bad email/password', 403)
-	response = Response(code=303, location='/outcomes')
+		location = '/outcomes'
+	response = Response(code=303, location=location)
 	response.set_secure_cookie(request, 'user_id', user.user_id, secure=True,
 			max_age=datetime.timedelta(days=30))
 	return response
