@@ -94,7 +94,7 @@ div.category_label:hover {
 
 div.bar {
 	height: 32px;
-	width: 522px;
+	width: 520px;
 	margin: 0 auto;
 	border: 1px solid #f2f2f2;
 	border-radius: 4px;
@@ -118,13 +118,20 @@ section.category_transactions.visible {
 	display: block;
 }
 
+div.transaction {
+	width: 522px;
+	margin: 0 auto;
+}
 div.transaction > div {
 	display: inline-block;
-	width: 100px;
+	width: 90px;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
 div.transaction > div:nth-child(3) {
-	width: 300px;
+	width: 252px;
+}
+div.transaction > div:last-child {
+	text-align: right;
 }
