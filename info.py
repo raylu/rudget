@@ -3,7 +3,7 @@
 import collections
 import datetime
 
-def transaction_info(transactions):
+def transaction_info(transactions, days):
 	payees = collections.defaultdict(list)
 	categories = collections.defaultdict(list)
 	for t in transactions:
@@ -19,7 +19,7 @@ def transaction_info(transactions):
 		payees[t.name].append(t)
 		categories[category].append(t)
 
-	transaction_threshold = datetime.date.today() - datetime.timedelta(days=15 * 7)
+	transaction_threshold = datetime.date.today() - datetime.timedelta(days=days)
 	total_spending = 0.0
 	cat_by_periodicity = []
 	for name, cat_transactions in categories.items():

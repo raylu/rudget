@@ -60,6 +60,11 @@ div#spending div#spending_total {
 	font-size: 42px;
 }
 
+div#regularity div#date {
+	width: 522px;
+	margin: 0 auto;
+}
+
 div.line {
 	display: flex; /* get rid of whitespace */
 	width: 522px;

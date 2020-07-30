@@ -30,11 +30,18 @@
 
 		<div class="info_card" id="regularity">
 			<h2>Spending by regularity</h2>
+			<div id="date">
+				<select>
+					<option value="30">Last 30 days</option>
+					<option value="105" selected="true">Last 15 weeks</option>
+				</select>
+			</div>
 			<div class="line header">
 				<div>Category Name</div>
 				<div>Periodicity</div>
 				<div>Amount</div>
 			</div>
+			<div id="transactions"></div>
 		</div>
 
 		<div class="info_card" id="accounts">
