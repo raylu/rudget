@@ -10,7 +10,7 @@
 	const categoryMeta = [];
 	let total = 0;
 
-	const infoEl = document.querySelector('#info');
+	const regularityEl = document.querySelector('#regularity');
 	categories.forEach((categoryInfo) => {
 		const [name, periodicity, transactions] = categoryInfo;
 
@@ -49,7 +49,7 @@
 		categoryMeta.push({'bar': bar, 'categoryTotal': categoryTotal});
 		total += categoryTotal;
 
-		infoEl.append(categoryLabel, bar, transactionsEl);
+		regularityEl.append(categoryLabel, bar, transactionsEl);
 	});
 
 	let accumulator = 0;
@@ -57,10 +57,10 @@
 		const {bar, categoryTotal} = meta;
 		const accumulatorEl = document.createElement('div');
 		accumulatorEl.classList.add('accumulated');
-		accumulatorEl.style.width = `${accumulator / total * 600}px`;
+		accumulatorEl.style.width = `${accumulator / total * 522}px`;
 		const catTotalEl = document.createElement('div');
 		catTotalEl.classList.add('category_total');
-		catTotalEl.style.width = `${categoryTotal / total * 600}px`;
+		catTotalEl.style.width = `${categoryTotal / total * 522}px`;
 		bar.append(accumulatorEl, catTotalEl);
 
 		accumulator += categoryTotal;

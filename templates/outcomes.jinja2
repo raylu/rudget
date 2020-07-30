@@ -6,25 +6,42 @@
 
 {% block body %}
 	<nav>
-		<h1>Outcomes</h1>
-		{% if not demo %}
-			<a href="/accounts">Accounts</a>
-			<form method="post" action="/fetch_transactions">
-				<input type="submit" value="Fetch Transactions">
-			</form>
-		{% endif %}
+		Outcomes
+		<div class="right_nav">
+			{% if not demo %}
+				<a href="/dashboard">Dashboard</a>
+				<a href="/accounts">Accounts</a>
+				<form method="post" action="/fetch_transactions">
+					<input type="submit" value="Fetch Transactions">
+				</form>
+			{% endif %}
+		</div>
 	</nav>
 
 	<div id="info">
-		<h2>Spending by periodicity</h2>
-		<div class="line header">
-			<div>Category Name</div>
-			<div>Periodicity</div>
-			<div>Amount</div>
+		<div class="info_card" id="spending">
+			<h2>Spending</h2>
+		</div>
+
+		<div class="info_card" id="trend">
+			<h2>Trend</h2>
+		</div>
+
+		<div class="info_card" id="regularity">
+			<h2>Spending by regularity</h2>
+			<div class="line header">
+				<div>Category Name</div>
+				<div>Periodicity</div>
+				<div>Amount</div>
+			</div>
+		</div>
+
+		<div class="info_card" id="accounts">
+			<h2>Accounts</h2>
 		</div>
 	</div>
 	{% if demo %}
-	<script>window.demo = true;</script>
+		<script>window.demo = true;</script>
 	{% endif %}
 	<script src="static/outcomes.js"></script>
 {% endblock body %}

@@ -1,37 +1,78 @@
 body {
-	display: flex;
-	align-items: stretch;
+	background-image: url(f5f8fa.png);
+	background-size: 100vw 500px;
+	background-repeat: no-repeat;
 }
 
 nav {
-	width: 175px;
-	border-right: 1px solid #f2f2f2;
+	width: 880px;
+	margin: 40px auto;
+	display: flex;
+	justify-content: space-between;
+}
+nav > div.right_nav a {
+	color: #152f52;
+	text-decoration: none;
+}
+nav > div.right_nav > * {
+	display: inline-block;
 }
 
 div#info {
-	width: 600px;
-	margin-left: 20px;
+	width: 880px;
+	margin: 50px auto;
 	padding-bottom: 100px;
+}
+div#info > div.info_card {
+	display: inline-block;
+	background-color: #fff;
+	margin: 0 12px 12px 0;
+	border: 1px solid #e0e0e0;
+	border-radius: 4px;
+	drop-shadow(2px 2px 10px rgba(0, 0, 0, 0.1));
+	vertical-align: top;
+}
+div#info > div#spending,
+div#info > div#accounts {
+	width: 280px;
+}
+div#info > div#trend,
+div#info > div#regularity {
+	width: 572px;
+}
+div#info > div#spending {
+	background-color: #5473e8;
+	color: #fff;
+}
+div#info > div#regularity {
+	padding-bottom: 48px;
 }
 
 h2 {
+	margin-left: 22px;
 	font-weight: bold;
-	font-size: 21px;
-	line-height: 25px;
+	font-size: 18px;
+	line-height: 21px;
 }
 
 div.line {
 	display: flex; /* get rid of whitespace */
+	width: 522px;
+	margin: 0 auto;
 }
 div.line > div {
 	display: inline-block;
 	width: 100px;
 }
-div.line > div:nth-child(1) {
+div.line > div:first-child {
 	width: 400px;
+}
+div.line > div:last-child {
+	text-align: right;
 }
 
 div.header {
+	margin-top: 34px;
 	font-weight: bold;
 }
 
@@ -48,8 +89,10 @@ div.category_label:hover {
 
 div.bar {
 	height: 32px;
-	width: 600px;
+	width: 522px;
+	margin: 0 auto;
 	border: 1px solid #f2f2f2;
+	border-radius: 4px;
 	box-sizing: content-box;
 }
 div.bar > div {
@@ -59,7 +102,8 @@ div.bar > div {
 div.bar > div.accumulated {
 }
 div.bar > div.category_total {
-	background-color: #f2c94c;
+	background-color: #5473e8;
+	border-radius: 4px;
 }
 
 section.category_transactions {
