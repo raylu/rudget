@@ -55,6 +55,11 @@ h2 {
 	line-height: 21px;
 }
 
+div#spending div#spending_total {
+	margin: 20px;
+	font-size: 42px;
+}
+
 div.line {
 	display: flex; /* get rid of whitespace */
 	width: 522px;

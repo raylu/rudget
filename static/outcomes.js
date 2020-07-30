@@ -52,6 +52,8 @@
 		regularityEl.append(categoryLabel, bar, transactionsEl);
 	});
 
+	document.querySelector('#spending #spending_total').innerText = formatCurrency(total / 100);
+
 	let accumulator = 0;
 	categoryMeta.forEach((meta) => {
 		const {bar, categoryTotal} = meta;

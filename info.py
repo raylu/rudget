@@ -20,6 +20,7 @@ def transaction_info(transactions):
 		categories[category].append(t)
 
 	transaction_threshold = datetime.date.today() - datetime.timedelta(days=15 * 7)
+	total_spending = 0.0
 	cat_by_periodicity = []
 	for name, cat_transactions in categories.items():
 		periodicity = group_periodicity(cat_transactions)
@@ -30,6 +31,7 @@ def transaction_info(transactions):
 			displayed_transactions.append({
 				'date': t.date.isoformat(), 'name': t.name, 'amount': t.amount, 'account': t.account.name,
 			})
+			total_spending += t.amount
 		if len(displayed_transactions) > 0:
 			cat_by_periodicity.append((name, periodicity, displayed_transactions))
 	cat_by_periodicity.sort(key=lambda cbp: cbp[1])
