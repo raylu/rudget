@@ -6,8 +6,10 @@
 	async function query() {
 		const spendingTotal = document.querySelector('#spending #spending_total');
 		const transactionWrapper = document.querySelector('#regularity #transactions');
+		const itemsWrapper = document.querySelector('#accounts #items');
 		spendingTotal.innerHTML = '';
 		transactionWrapper.innerHTML = '';
+		itemsWrapper.innerHTML = '';
 
 		let url = '/transaction_info';
 		if (window.demo) {
@@ -15,8 +17,14 @@
 		}
 		url += '?days=' + datePicker.value;
 		const response = await fetch(url);
-		const categories = await response.json();
+		const {categories, items} = await response.json();
 
+		const total = renderCategories(categories, transactionWrapper);
+		spendingTotal.innerText = formatCurrency(total);
+		renderAccounts(items, itemsWrapper);
+	}
+
+	function renderCategories(categories, transactionWrapper) {
 		const categoryMeta = [];
 		let total = 0;
 
@@ -32,7 +40,7 @@
 			transactions.forEach((t) => {
 				const transactionEl = document.createElement('div');
 				transactionEl.classList.add('transaction');
-				for (const text of [t.date, t.account, t.name, formatCurrency(t.amount/100)]) {
+				for (const text of [t.date, t.account, t.name, formatCurrency(t.amount)]) {
 					const textEl = document.createElement('div');
 					textEl.innerText = text;
 					transactionEl.append(textEl);
@@ -49,7 +57,7 @@
 			const categoryAmount = document.createElement('div');
 			categoryName.innerText = name;
 			categoryPeriodicity.innerText = periodicity.toFixed(2);
-			categoryAmount.innerText = formatCurrency(categoryTotal/100);
+			categoryAmount.innerText = formatCurrency(categoryTotal);
 			categoryLabel.append(categoryName, categoryPeriodicity, categoryAmount);
 			categoryLabel.addEventListener('click', (evt) => {
 				transactionsEl.classList.toggle('visible');
@@ -60,8 +68,6 @@
 
 			transactionWrapper.append(categoryLabel, bar, transactionsEl);
 		});
-
-		spendingTotal.innerText = formatCurrency(total / 100);
 
 		let accumulator = 0;
 		categoryMeta.forEach((meta) => {
@@ -74,10 +80,34 @@
 
 			accumulator += categoryTotal;
 		});
+
+		return total;
+	}
+
+	function renderAccounts(items, itemsWrapper) {
+		items.forEach((item) => {
+			const itemName = document.createElement('div');
+			itemName.classList.add('item');
+			itemName.innerText = item['name'];
+			itemsWrapper.append(itemName);
+
+			item['accounts'].forEach((account) => {
+				const accountName = document.createElement('div');
+				const total = document.createElement('div');
+				accountName.classList.add('account');
+				total.classList.add('total');
+				accountName.innerText = account['name'];
+				if (account['total'] === null)
+					total.innerText = '(skipped)';
+				else
+					total.innerText = formatCurrency(account['total']);
+				itemsWrapper.append(accountName, total);
+			});
+		});
 	}
 
 	function formatCurrency(num) {
-		return num.toLocaleString(undefined, {'style': 'currency', 'currency': 'USD'});
+		return (num / 100).toLocaleString(undefined, {'style': 'currency', 'currency': 'USD'});
 	}
 
 	await query();

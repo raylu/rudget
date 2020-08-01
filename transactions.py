@@ -19,7 +19,10 @@ def process_user(user_id):
 			.options(load_only(db.PlaidTransaction.transaction_id))
 	plaid_transactions = frozenset(pt.transaction_id for pt in transaction_query.all())
 
-	items = db.PlaidItem.query.filter(db.PlaidItem.user_id == user_id).all()
+	items = db.PlaidItem.query \
+			.filter(db.PlaidItem.user_id == user_id) \
+			.order_by(db.PlaidItem.plaid_item_id) \
+			.all()
 	seen_accounts = set()
 	for item in items:
 		process_item(item, plaid_transactions, seen_accounts)

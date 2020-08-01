@@ -45,14 +45,11 @@ div#info > div.info_card {
 	drop-shadow(2px 2px 10px rgba(0, 0, 0, 0.1));
 	vertical-align: top;
 }
+
 div#info > div#regularity {
 	width: calc(100vw - 50px - 50px - 12px - 370px - 16px);
 	max-width: calc(1440px - 12px - 370px - 4px);
 	padding-bottom: 48px;
-}
-div#info > div#accounts {
-	width: 370px;
-	margin-left: 12px;
 }
 
 h2 {
@@ -134,5 +131,28 @@ div.transaction > div:nth-child(3) {
 	width: calc(100% - 300px);
 }
 div.transaction > div:last-child {
+	text-align: right;
+}
+
+div#info > div#accounts {
+	width: 370px;
+	margin-left: 12px;
+	padding-bottom: 30px;
+}
+div#info > div#accounts > div#items {
+	margin: 0 22px;
+}
+div#info > div#accounts > div#items div.item {
+	margin-top: 40px;
+	font-weight: bold;
+}
+div#info > div#accounts > div#items div.account {
+	display: inline-block;
+	width: 224px;
+	margin-top: 1em;
+}
+div#info > div#accounts > div#items div.total {
+	display: inline-block;
+	width: 100px;
 	text-align: right;
 }

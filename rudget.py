@@ -101,17 +101,22 @@ def transaction_info(request, user_id):
 	plaid_transactions = db.PlaidTransaction.query \
 		.join(db.PlaidTransaction.account) \
 		.join(db.PlaidAccount.item) \
-		.join(db.PlaidItem.user) \
-		.filter(db.User.user_id == user_id) \
+		.filter(db.PlaidItem.user_id == user_id) \
 		.options(joinedload(db.PlaidTransaction.category), joinedload(db.PlaidTransaction.account)) \
 		.order_by(db.PlaidTransaction.date) \
 		.all()
-	return Response.json(info.transaction_info(plaid_transactions, days))
+	plaid_accounts = db.PlaidAccount.query \
+			.join(db.PlaidAccount.item) \
+			.filter(db.PlaidItem.user_id == user_id) \
+			.order_by(db.PlaidItem.plaid_item_id) \
+			.options(joinedload(db.PlaidAccount.item)) \
+			.all()
+	return Response.json(info.transaction_info(plaid_transactions, plaid_accounts, days))
 
 def transaction_info_demo(request):
 	days = int(request.query['days'])
 	fake_transactions = demo_transactions.transactions()
-	return Response.json(info.transaction_info(fake_transactions, days))
+	return Response.json(info.transaction_info(fake_transactions, [], days))
 
 @authed
 def plaid_access_token(request, user_id):

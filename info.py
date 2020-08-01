@@ -3,7 +3,7 @@
 import collections
 import datetime
 
-def transaction_info(transactions, days):
+def transaction_info(transactions, accounts, days):
 	payees = collections.defaultdict(list)
 	categories = collections.defaultdict(list)
 	for t in transactions:
@@ -22,6 +22,7 @@ def transaction_info(transactions, days):
 	transaction_threshold = datetime.date.today() - datetime.timedelta(days=days)
 	total_spending = 0.0
 	cat_by_periodicity = []
+	items = items_dict(accounts)
 	for name, cat_transactions in categories.items():
 		periodicity = group_periodicity(cat_transactions)
 		displayed_transactions = []
@@ -31,11 +32,17 @@ def transaction_info(transactions, days):
 			displayed_transactions.append({
 				'date': t.date.isoformat(), 'name': t.name, 'amount': t.amount, 'account': t.account.name,
 			})
+			items[t.account.plaid_item_id]['accounts'][t.account.plaid_account_id]['total'] += t.amount
 			total_spending += t.amount
 		if len(displayed_transactions) > 0:
 			cat_by_periodicity.append((name, periodicity, displayed_transactions))
 	cat_by_periodicity.sort(key=lambda cbp: cbp[1])
-	return cat_by_periodicity
+
+	items_stripped = []
+	for item in items.values():
+		item['accounts'] = list(item['accounts'].values())
+		items_stripped.append(item)
+	return {'categories': cat_by_periodicity, 'items': items_stripped}
 
 def group_periodicity(transactions):
 	if len(transactions) < 3:
@@ -65,3 +72,29 @@ def transactions_periodicity(interval, last_interval, amount, last_amount):
 	if abs(amount - last_amount) / last_amount < 0.4:
 		periodicity += 0.4
 	return periodicity
+
+def items_dict(accounts):
+	item_totals = {}
+	account_totals = {}
+	seen_accounts = set()
+	last_item = None
+	for account in accounts:
+		if last_item is not None and account.item.plaid_item_id != last_item.plaid_item_id:
+			item_totals[last_item.plaid_item_id] = {
+				'name': last_item.name,
+				'accounts': account_totals,
+			}
+			account_totals = {}
+		key = (account.subtype, account.mask)
+		if key in seen_accounts:
+			total = None
+		else:
+			seen_accounts.add(key)
+			total = 0
+		account_totals[account.plaid_account_id] = {'name': account.name, 'total': total}
+		last_item = account.item
+	item_totals[last_item.plaid_item_id] = {
+		'name': last_item.name,
+		'accounts': account_totals,
+	}
+	return item_totals
