@@ -66,13 +66,11 @@
 		let accumulator = 0;
 		categoryMeta.forEach((meta) => {
 			const {bar, categoryTotal} = meta;
-			const accumulatorEl = document.createElement('div');
-			accumulatorEl.classList.add('accumulated');
-			accumulatorEl.style.width = `${accumulator / total * 520}px`;
 			const catTotalEl = document.createElement('div');
 			catTotalEl.classList.add('category_total');
-			catTotalEl.style.width = `${categoryTotal / total * 520}px`;
-			bar.append(accumulatorEl, catTotalEl);
+			catTotalEl.style.marginLeft = `${accumulator / total * 100}%`;
+			catTotalEl.style.width = `${categoryTotal / total * 100}%`;
+			bar.append(catTotalEl);
 
 			accumulator += categoryTotal;
 		});

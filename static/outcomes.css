@@ -2,13 +2,17 @@ body {
 	margin: 0;
 }
 
+.hero {
+	background-color: #16235f;
+	color: #fff;
+}
+
 nav {
-	width: 100%;
+	max-width: 1440px;
+	margin: 0 auto;
 	padding: 50px;
 	display: flex;
 	justify-content: space-between;
-	background-color: #16235f;
-	color: #fff;
 }
 nav > div.right_nav a {
 	color: #fff;
@@ -19,10 +23,9 @@ nav > div.right_nav > * {
 }
 
 div#spending {
-	width: 100%;
+	max-width: 1440px;
+	margin: 0 auto;
 	padding: 50px;
-	background-color: #16235f;
-	color: #fff;
 	font-size: 24px;
 }
 div#spending span#spending_total {
@@ -31,6 +34,7 @@ div#spending span#spending_total {
 
 div#info {
 	width: calc(100vw - 50px - 50px - 12px);
+	max-width: 1440px;
 	margin: 50px auto;
 	padding-bottom: 100px;
 }
@@ -43,6 +47,7 @@ div#info > div.info_card {
 }
 div#info > div#regularity {
 	width: calc(100vw - 50px - 50px - 12px - 370px - 16px);
+	max-width: calc(1440px - 12px - 370px - 4px);
 	padding-bottom: 48px;
 }
 div#info > div#accounts {
@@ -58,21 +63,19 @@ h2 {
 }
 
 div#regularity div#date {
-	width: 522px;
-	margin: 0 auto;
+	margin-left: 22px;
 }
 
 div.line {
 	display: flex; /* get rid of whitespace */
-	width: 522px;
-	margin: 0 auto;
+	margin: 0 22px;
 }
 div.line > div {
 	display: inline-block;
 	width: 100px;
 }
 div.line > div:first-child {
-	width: 400px;
+	width: calc(100% - 200px);
 }
 div.line > div:last-child {
 	text-align: right;
@@ -96,8 +99,7 @@ div.category_label:hover {
 
 div.bar {
 	height: 32px;
-	width: 520px;
-	margin: 0 auto;
+	margin: 0 22px;
 	border: 1px solid #f2f2f2;
 	border-radius: 4px;
 	box-sizing: content-box;
@@ -105,8 +107,6 @@ div.bar {
 div.bar > div {
 	height: 100%;
 	float: left;
-}
-div.bar > div.accumulated {
 }
 div.bar > div.category_total {
 	background-color: #5473e8;
@@ -121,18 +121,17 @@ section.category_transactions.visible {
 }
 
 div.transaction {
-	width: 522px;
-	margin: 0 auto;
+	margin: 0 22px;
 }
 div.transaction > div {
 	display: inline-block;
-	width: 90px;
+	width: 100px;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
 div.transaction > div:nth-child(3) {
-	width: 252px;
+	width: calc(100% - 300px);
 }
 div.transaction > div:last-child {
 	text-align: right;

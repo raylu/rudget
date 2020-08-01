@@ -5,22 +5,24 @@
 {% endblock head %}
 
 {% block body %}
-	<nav>
-		<img src="/static/logo.svg" alt="Outcomes">
-		<div class="right_nav">
-			{% if not demo %}
-				<a href="/dashboard">Dashboard</a>
-				<a href="/accounts">Accounts</a>
-				<form method="post" action="/fetch_transactions">
-					<input type="submit" value="Fetch Transactions">
-				</form>
-			{% endif %}
-		</div>
-	</nav>
+	<div class="hero">
+		<nav>
+			<img src="/static/logo.svg" alt="Outcomes">
+			<div class="right_nav">
+				{% if not demo %}
+					<a href="/dashboard">Dashboard</a>
+					<a href="/accounts">Accounts</a>
+					<form method="post" action="/fetch_transactions">
+						<input type="submit" value="Fetch Transactions">
+					</form>
+				{% endif %}
+			</div>
+		</nav>
 
-	<div id="spending">
-		You've spent
-		<span id="spending_total"></span>
+		<div id="spending">
+			You've spent
+			<span id="spending_total"></span>
+		</div>
 	</div>
 
 	<div id="info">
