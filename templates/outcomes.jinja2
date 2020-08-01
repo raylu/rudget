@@ -6,7 +6,7 @@
 
 {% block body %}
 	<nav>
-		Outcomes
+		<img src="/static/logo.svg" alt="Outcomes">
 		<div class="right_nav">
 			{% if not demo %}
 				<a href="/dashboard">Dashboard</a>
@@ -18,16 +18,12 @@
 		</div>
 	</nav>
 
+	<div id="spending">
+		You've spent
+		<span id="spending_total"></span>
+	</div>
+
 	<div id="info">
-		<div class="info_card" id="spending">
-			<h2>Spending</h2>
-			<div id="spending_total"></div>
-		</div>
-
-		<div class="info_card" id="trend">
-			<h2>Trend</h2>
-		</div>
-
 		<div class="info_card" id="regularity">
 			<h2>Spending by regularity</h2>
 			<div id="date">
