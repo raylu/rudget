@@ -115,8 +115,8 @@ def transaction_info(request, user_id):
 
 def transaction_info_demo(request):
 	days = int(request.query['days'])
-	fake_transactions = demo_transactions.transactions()
-	return Response.json(info.transaction_info(fake_transactions, [], days))
+	fake_transactions, fake_accounts = demo_transactions.data()
+	return Response.json(info.transaction_info(fake_transactions, fake_accounts, days))
 
 @authed
 def plaid_access_token(request, user_id):

@@ -7,9 +7,18 @@ class FakeCategory:
 	full_name: str
 
 @dataclasses.dataclass(eq=False, frozen=True)
+class FakeItem:
+	plaid_item_id: int
+	name: str
+
+@dataclasses.dataclass(eq=False, frozen=True)
 class FakeAccount:
+	plaid_account_id: int
+	plaid_item_id: int
+	item: FakeItem
 	name: str
 	subtype: str
+	mask: str
 
 @dataclasses.dataclass(eq=False, frozen=True)
 class FakeTransaction:
@@ -19,9 +28,10 @@ class FakeTransaction:
 	account: FakeAccount
 	category: FakeCategory
 
-def transactions():
+def data():
 	today = datetime.date.today()
-	account = FakeAccount('Personal', 'checking')
+	item = FakeItem(1, 'Chase')
+	account = FakeAccount(1, item.plaid_item_id, item, 'Personal', 'checking', '0123')
 	cat_loans = FakeCategory('Service, Financial, Loans and Mortgages')
 	cat_games = FakeCategory('Shops, Computers and Electronics, Video Games')
 	cat_dept = FakeCategory('Shops, Department Stores')
@@ -80,4 +90,4 @@ def transactions():
 		ft(1, 5623, 'Nintendo', cat_entertainment),
 	]
 	t.sort(key=operator.attrgetter('date'))
-	return t
+	return t, [account]
