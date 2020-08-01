@@ -94,14 +94,20 @@
 			item['accounts'].forEach((account) => {
 				const accountName = document.createElement('div');
 				const total = document.createElement('div');
+				const mask = document.createElement('div');
+				const subtype = document.createElement('div');
 				accountName.classList.add('account');
 				total.classList.add('total');
+				mask.classList.add('mask');
+				subtype.classList.add('subtype');
 				accountName.innerText = account['name'];
 				if (account['total'] === null)
 					total.innerText = '(skipped)';
 				else
 					total.innerText = formatCurrency(account['total']);
-				itemsWrapper.append(accountName, total);
+				mask.innerText = `(${account['mask']})`;
+				subtype.innerText = account['subtype'];
+				itemsWrapper.append(accountName, total, mask, subtype);
 			});
 		});
 	}

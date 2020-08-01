@@ -91,7 +91,12 @@ def items_dict(accounts):
 		else:
 			seen_accounts.add(key)
 			total = 0
-		account_totals[account.plaid_account_id] = {'name': account.name, 'total': total}
+		account_totals[account.plaid_account_id] = {
+			'name': account.name,
+			'subtype': account.subtype,
+			'mask': account.mask,
+			'total': total,
+		}
 		last_item = account.item
 	item_totals[last_item.plaid_item_id] = {
 		'name': last_item.name,

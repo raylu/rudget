@@ -156,3 +156,16 @@ div#info > div#accounts > div#items div.total {
 	width: 100px;
 	text-align: right;
 }
+div#info > div#accounts > div#items div.mask {
+	display: inline-block;
+	width: 224px;
+	font-size: 14px;
+	color: #aaa;
+}
+div#info > div#accounts > div#items div.subtype {
+	display: inline-block;
+	width: 100px;
+	font-size: 14px;
+	color: #aaa;
+	text-align: right;
+}
