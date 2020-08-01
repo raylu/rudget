@@ -19,5 +19,7 @@ jobs:
         python-version: '3.x'
     - name: install
       run: pip3 install --quiet --requirement requirements.txt pylint
+    - name: tests
+      run: python3 -m unittest --verbose
     - name: pylint
       run: pylint *.py
