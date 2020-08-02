@@ -53,14 +53,36 @@ div#info > div#regularity {
 }
 
 h2 {
-	margin-left: 22px;
+	margin: 30px 22px;
 	font-weight: bold;
 	font-size: 18px;
-	line-height: 21px;
 }
 
 div#regularity div#date {
 	margin-left: 22px;
+}
+
+div#regularity div#regularity_groups {
+	display: flex;
+	border-bottom: 1px solid #e0e0e0;
+}
+div#regularity div#regularity_groups > div.group_header {
+	flex-grow: 1;
+	padding: 22px;
+	border-right: 1px solid #e0e0e0;
+	cursor: pointer;
+}
+div#regularity div#regularity_groups > div.group_header:last-child {
+	border-right: 0;
+}
+div#regularity div#regularity_groups > div.group_header.active {
+	border-bottom: 4px solid #5473e8;
+}
+div#regularity div#transactions > div {
+	display: none;
+}
+div#regularity div#transactions > div.active {
+	display: block;
 }
 
 div.line {

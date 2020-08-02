@@ -3,13 +3,29 @@
 	const datePicker = document.querySelector('#date select');
 	datePicker.addEventListener('change', query);
 
+	const regularityGroups = document.querySelectorAll('#regularity #transactions > div');
+	const regularityHeaders = document.querySelectorAll('#regularity #regularity_groups > div.group_header');
+	regularityHeaders.forEach((header, i) => {
+		header.addEventListener('click', (evt) => {
+			regularityHeaders.forEach((rg) => {
+				rg.classList.remove('active');
+			});
+			regularityGroups.forEach((rg) => {
+				rg.classList.remove('active');
+			});
+			header.classList.add('active');
+			regularityGroups[i].classList.add('active');
+		});
+	});
+
 	async function query() {
 		const spendingTotal = document.querySelector('#spending #spending_total');
-		const transactionWrapper = document.querySelector('#regularity #transactions');
 		const itemsWrapper = document.querySelector('#accounts #items');
 		spendingTotal.innerHTML = '';
-		transactionWrapper.innerHTML = '';
 		itemsWrapper.innerHTML = '';
+		regularityGroups.forEach((rg) => {
+			rg.innerHTML = '';
+		});
 
 		let url = '/transaction_info';
 		if (window.demo) {
@@ -19,12 +35,12 @@
 		const response = await fetch(url);
 		const {categories, items} = await response.json();
 
-		const total = renderCategories(categories, transactionWrapper);
+		const total = renderCategories(categories);
 		spendingTotal.innerText = formatCurrency(total);
 		renderAccounts(items, itemsWrapper);
 	}
 
-	function renderCategories(categories, transactionWrapper) {
+	function renderCategories(categories) {
 		const categoryMeta = [];
 		let total = 0;
 
@@ -66,7 +82,14 @@
 			categoryMeta.push({'bar': bar, 'categoryTotal': categoryTotal});
 			total += categoryTotal;
 
-			transactionWrapper.append(categoryLabel, bar, transactionsEl);
+			let group;
+			if (periodicity >= 0.5)
+				group = 2;
+			else if (periodicity >= 0.25)
+				group = 1;
+			else
+				group = 0;
+			regularityGroups[group].append(categoryLabel, bar, transactionsEl);
 		});
 
 		let accumulator = 0;
