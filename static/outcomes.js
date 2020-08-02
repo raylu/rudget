@@ -23,6 +23,10 @@
 		const itemsWrapper = document.querySelector('#accounts #items');
 		spendingTotal.innerHTML = '';
 		itemsWrapper.innerHTML = '';
+		regularityHeaders.forEach((rh) => {
+			rh.querySelector('div.group_total').innerText = '';
+			rh.querySelector('span.group_transactions').innerText = '';
+		});
 		regularityGroups.forEach((rg) => {
 			rg.innerHTML = '';
 		});
@@ -42,6 +46,8 @@
 
 	function renderCategories(categories) {
 		const categoryMeta = [];
+		const groupTotals = [0, 0, 0];
+		const groupTransactions = [0, 0, 0];
 		let total = 0;
 
 		categories.forEach((categoryInfo) => {
@@ -90,6 +96,8 @@
 			else
 				group = 0;
 			regularityGroups[group].append(categoryLabel, bar, transactionsEl);
+			groupTotals[group] += categoryTotal;
+			groupTransactions[group] += transactions.length;
 		});
 
 		let accumulator = 0;
@@ -102,6 +110,11 @@
 			bar.append(catTotalEl);
 
 			accumulator += categoryTotal;
+		});
+
+		regularityHeaders.forEach((header, i) => {
+			header.querySelector('div.group_total').innerText = formatCurrency(groupTotals[i]);
+			header.querySelector('span.group_transactions').innerText = groupTransactions[i];
 		});
 
 		return total;

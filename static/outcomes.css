@@ -78,6 +78,18 @@ div#regularity div#regularity_groups > div.group_header:last-child {
 div#regularity div#regularity_groups > div.group_header.active {
 	border-bottom: 4px solid #5473e8;
 }
+div#regularity div#regularity_groups > div.group_header .header_text {
+	font-weight: bold;
+}
+div#regularity div#regularity_groups > div.group_header .group_total {
+	font-size: 24px;
+	font-weight: bold;
+	margin: 18px 0;
+}
+div#regularity div#regularity_groups > div.group_header .group_transactions {
+	font-size: 20px;
+	font-weight: bold;
+}
 div#regularity div#transactions > div {
 	display: none;
 }
