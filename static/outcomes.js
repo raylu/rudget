@@ -1,4 +1,5 @@
 'use strict';
+/* global d3 c3 */
 (async () => {
 	const datePicker = document.querySelector('#date select');
 	datePicker.addEventListener('change', query);
@@ -18,6 +19,25 @@
 		});
 	});
 
+	const chart = c3.generate({
+		'bindto': '#chart',
+		'data': {
+			'type': 'bar',
+			'x': 'x',
+			'xFormat': '%Y-%m',
+			'columns': [],
+		},
+		'axis': {
+			'x': {
+				'type': 'timeseries',
+				'tick': {'format': '%Y-%m'},
+			},
+			'y': {
+				'tick': {'format': d3.format('$,')},
+			},
+		},
+	});
+
 	async function query() {
 		const spendingTotal = document.querySelector('#spending #spending_total');
 		const itemsWrapper = document.querySelector('#accounts #items');
@@ -30,6 +50,7 @@
 		regularityGroups.forEach((rg) => {
 			rg.innerHTML = '';
 		});
+		chart.unload({'ids': ['x', 'low', 'medium', 'high']});
 
 		let url = '/transaction_info';
 		if (window.demo) {
@@ -37,11 +58,26 @@
 		}
 		url += '?days=' + datePicker.value;
 		const response = await fetch(url);
-		const {categories, items} = await response.json();
+		const {categories, items, months} = await response.json();
 
+		renderChart(months);
 		const total = renderCategories(categories);
 		spendingTotal.innerText = formatCurrency(total);
 		renderAccounts(items, itemsWrapper);
+	}
+
+	function renderChart(months) {
+		const sorted = Object.keys(months).sort();
+		const columns = [['low'], ['medium'], ['high']];
+		for (const month of sorted) {
+			const monthData = months[month];
+			columns.forEach((col, i) => {
+				col.push(monthData[i]);
+			});
+		}
+		columns.push(['x'].concat(sorted));
+		chart.load({'columns': columns});
+		chart.groups([['low', 'medium', 'high']]);
 	}
 
 	function renderCategories(categories) {

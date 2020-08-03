@@ -22,6 +22,20 @@ nav > div.right_nav > * {
 	display: inline-block;
 }
 
+.hero div#chart {
+	max-width: 1440px;
+	margin: 0 auto;
+	color: #111;
+}
+.hero div#chart .c3-axis,
+.hero div#chart .c3-legend-item {
+	fill: #fff;
+}
+.hero div#chart .c3-axis path,
+.hero div#chart .c3-axis .tick line {
+	stroke: #fff;
+}
+
 div#spending {
 	max-width: 1440px;
 	margin: 0 auto;

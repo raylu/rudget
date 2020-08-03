@@ -22,18 +22,28 @@ def transaction_info(transactions, accounts, days):
 	transaction_threshold = datetime.date.today() - datetime.timedelta(days=days)
 	total_spending = 0.0
 	cat_by_periodicity = []
+	months = collections.defaultdict(lambda: [0, 0, 0])
 	items = items_dict(accounts)
 	for name, cat_transactions in categories.items():
 		periodicity = group_periodicity(cat_transactions)
 		displayed_transactions = []
 		for t in cat_transactions:
-			if t.date < transaction_threshold:
-				continue
-			displayed_transactions.append({
-				'date': t.date.isoformat(), 'name': t.name, 'amount': t.amount, 'account': t.account.name,
-			})
-			items[t.account.plaid_item_id]['accounts'][t.account.plaid_account_id]['total'] += t.amount
-			total_spending += t.amount
+			if periodicity >= 0.5:
+				regularity_group = 2
+			elif periodicity >= 0.25:
+				regularity_group = 1
+			else:
+				regularity_group = 0
+			months[t.date.strftime('%Y-%m')][regularity_group] += t.amount
+			if t.date >= transaction_threshold:
+				displayed_transactions.append({
+					'date': t.date.isoformat(),
+					'name': t.name,
+					'amount': t.amount,
+					'account': t.account.name,
+				})
+				items[t.account.plaid_item_id]['accounts'][t.account.plaid_account_id]['total'] += t.amount
+				total_spending += t.amount
 		if len(displayed_transactions) > 0:
 			cat_by_periodicity.append((name, periodicity, displayed_transactions))
 	cat_by_periodicity.sort(key=lambda cbp: cbp[1])
@@ -42,7 +52,7 @@ def transaction_info(transactions, accounts, days):
 	for item in items.values():
 		item['accounts'] = list(item['accounts'].values())
 		items_stripped.append(item)
-	return {'categories': cat_by_periodicity, 'items': items_stripped}
+	return {'categories': cat_by_periodicity, 'items': items_stripped, 'months': months}
 
 def group_periodicity(transactions):
 	if len(transactions) < 3:
