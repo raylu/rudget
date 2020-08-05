@@ -4,8 +4,11 @@
 
 import sys
 if len(sys.argv) == 3 and sys.argv[2] == '--reload':
-	import pigwig.reloader_linux
-	pigwig.reloader_linux.init()
+	if sys.platform == 'linux':
+		import pigwig.reloader_linux as reloader
+	elif sys.platform == 'darwin':
+		import pigwig.reloader_osx as reloader
+	reloader.init()
 
 import eventlet
 eventlet.monkey_patch()
