@@ -1,0 +1,72 @@
+body {
+	margin: 0;
+	background-color: #f5f8fa;
+	color: #16235f;
+}
+
+.blue_circle {
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: 40%;
+}
+.yellow_circle {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+}
+
+a.button:link {
+	display: inline-block;
+	border: 1px solid #16235f;
+	border-radius: 24px;
+	padding: 10px 30px;
+	color: #16235f;
+	text-decoration: none;
+}
+
+nav {
+	margin: 55px 70px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: relative;
+}
+nav div.right_nav a.button {
+	background-color: #fff;
+}
+
+section.text {
+	margin: 55px 70px;
+	width: 50%;
+	position: relative;
+}
+
+.logo {
+	width: 148px;
+}
+
+h2 {
+	font-weight: bold;
+	font-size: 64px;
+}
+
+p {
+	font-size: 20px;
+}
+
+div.modal {
+	display: none;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	justify-content: center;
+	align-items: center;
+}
+div.modal form {
+	padding: 50px;
+	background-color: #fff;
+}
