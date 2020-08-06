@@ -2,6 +2,7 @@
 
 import collections
 import datetime
+import operator
 
 def transaction_info(transactions, accounts, days):
 	payees = collections.defaultdict(list)
@@ -58,30 +59,31 @@ def group_periodicity(transactions):
 	if len(transactions) < 3:
 		return 0.0
 
-	first = transactions[0].date
-
-	last_date = transactions[1].date
-	last_interval = last_date - first
-	last_amount = transactions[1].amount
-	total_periodicity = 0.0
-	for t in transactions[2:]:
-		interval = t.date - last_date
-		total_periodicity += transactions_periodicity(interval, last_interval, t.amount, last_amount)
-
-		last_interval = interval
+	intervals = []
+	last_date = transactions[0].date
+	for t in transactions[1:]:
+		intervals.append((t.date - last_date).days)
 		last_date = t.date
-		last_amount = t.amount
-	return total_periodicity / (len(transactions) - 2)
+	amounts = list(map(operator.attrgetter('amount'), transactions))
+	date_variance = regularity(intervals)
+	amount_variance = regularity(amounts)
+	return (date_variance + amount_variance) / 2.0
 
-def transactions_periodicity(interval, last_interval, amount, last_amount):
-	periodicity = 0.0
-	if interval.days > 20:
-		periodicity += 0.2
-	if abs(interval - last_interval).days < 7:
-		periodicity += 0.4
-	if abs(amount - last_amount) / last_amount < 0.4:
-		periodicity += 0.4
-	return periodicity
+def regularity(nums):
+	total_irregularity = 0.0
+	last_num = nums[0]
+	for num in nums[1:]:
+		difference = abs(num - last_num)
+		if difference == 0:
+			num_irregularity = 0.0
+		else:
+			try:
+				num_irregularity = min(difference / ((num + last_num) / 2), 1.0)
+			except ZeroDivisionError:
+				num_irregularity = 1.0
+		total_irregularity += num_irregularity
+		last_num = num
+	return 1.0 - total_irregularity / (len(nums) - 1)
 
 def items_dict(accounts):
 	item_totals = {}
@@ -108,8 +110,9 @@ def items_dict(accounts):
 			'total': total,
 		}
 		last_item = account.item
-	item_totals[last_item.plaid_item_id] = {
-		'name': last_item.name,
-		'accounts': account_totals,
-	}
+	if last_item is not None:
+		item_totals[last_item.plaid_item_id] = {
+			'name': last_item.name,
+			'accounts': account_totals,
+		}
 	return item_totals
