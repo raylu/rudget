@@ -57,6 +57,11 @@ def login(request):
 			max_age=datetime.timedelta(days=30))
 	return response
 
+def logout(request):
+	response = Response(code=303, location='/')
+	response.set_secure_cookie(request, 'user_id', None, secure=True, max_age=datetime.timedelta())
+	return response
+
 def outcomes(request):
 	return Response.render(request, 'outcomes.jinja2', {})
 
@@ -140,6 +145,7 @@ def static(request, file_path):
 routes = [
 	('GET', '/', root),
 	('POST', '/login', login),
+	('POST', '/logout', logout),
 	('GET', '/outcomes', outcomes),
 	('GET', '/demo', demo),
 	('GET', '/accounts', accounts),

@@ -10,13 +10,15 @@
 {% block body %}
 	<div class="hero">
 		<nav>
-			<img src="/static/logo_light.svg" alt="Outcomes">
+			<a href="/"><img src="/static/logo_light.svg" alt="Outcomes"></a>
 			<div class="right_nav">
 				{% if not demo %}
-					<a href="/dashboard">Dashboard</a>
 					<a href="/accounts">Accounts</a>
 					<form method="post" action="/fetch_transactions">
 						<input type="submit" value="Fetch Transactions">
+					</form>
+					<form method="post" action="/logout">
+						<input type="submit" value="Logout">
 					</form>
 				{% endif %}
 			</div>
