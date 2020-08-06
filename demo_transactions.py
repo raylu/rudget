@@ -28,19 +28,20 @@ class FakeTransaction:
 	account: FakeAccount
 	category: FakeCategory
 
+item = FakeItem(1, 'Chase')
+account = FakeAccount(1, item.plaid_item_id, item, 'Personal', 'checking', '0123')
+cat_loans = FakeCategory('Service, Financial, Loans and Mortgages')
+cat_games = FakeCategory('Shops, Computers and Electronics, Video Games')
+cat_dept = FakeCategory('Shops, Department Stores')
+cat_venmo = FakeCategory('Transfer, Third Party, Venmo')
+cat_gas = FakeCategory('Travel, Gas Stations')
+cat_digital = FakeCategory('Shops, Digital Purchase')
+cat_cable = FakeCategory('Service, Cable')
+cat_groceries = FakeCategory('Shops, Supermarkets and Groceries')
+cat_entertainment = FakeCategory('Service, Entertainment')
+
 def data():
 	today = datetime.date.today()
-	item = FakeItem(1, 'Chase')
-	account = FakeAccount(1, item.plaid_item_id, item, 'Personal', 'checking', '0123')
-	cat_loans = FakeCategory('Service, Financial, Loans and Mortgages')
-	cat_games = FakeCategory('Shops, Computers and Electronics, Video Games')
-	cat_dept = FakeCategory('Shops, Department Stores')
-	cat_venmo = FakeCategory('Transfer, Third Party, Venmo')
-	cat_gas = FakeCategory('Travel, Gas Stations')
-	cat_digital = FakeCategory('Shops, Digital Purchase')
-	cat_cable = FakeCategory('Service, Cable')
-	cat_groceries = FakeCategory('Shops, Supermarkets and Groceries')
-	cat_entertainment = FakeCategory('Service, Entertainment')
 
 	def ft(days, amount, name, category):
 		return FakeTransaction(today - datetime.timedelta(days), amount, name, account, category)
@@ -51,9 +52,9 @@ def data():
 		ft(66, 287000, 'CENLAR Mortgage', cat_loans),
 		ft(96, 287000, 'CENLAR Mortgage', cat_loans),
 		ft(127, 287000, 'CENLAR Mortgage', cat_loans),
-		ft(10, 779, 'Steam Games ', cat_games),
-		ft(55, 1499, 'Steam Games ', cat_games),
-		ft(100, 499, 'Steam Games ', cat_games),
+		ft(10, 779, 'Steam Games', cat_games),
+		ft(30, 2499, 'Steam Games', cat_games),
+		ft(100, 499, 'Steam Games', cat_games),
 		ft(2, 4679, 'Walmart', cat_dept),
 		ft(40, 2311, 'Walmart', cat_dept),
 		ft(43, 1851, 'Walmart', cat_dept),
