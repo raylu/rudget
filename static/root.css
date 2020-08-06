@@ -16,7 +16,7 @@ body {
 	left: 0;
 }
 
-a.button:link {
+a.button {
 	display: inline-block;
 	border: 1px solid #16235f;
 	border-radius: 24px;
@@ -57,7 +57,7 @@ p {
 
 div.modal {
 	display: none;
-	position: absolute;
+	position: fixed;
 	top: 0;
 	right: 0;
 	bottom: 0;
@@ -69,4 +69,19 @@ div.modal {
 div.modal form {
 	padding: 50px;
 	background-color: #fff;
+	border-radius: 4px;
+	box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+div.modal form label {
+	margin-bottom: 1em;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+div.modal form label input {
+	margin-left: 10px;
+}
+div.modal form div.form_buttons {
+	display: flex;
+	justify-content: space-evenly;
 }
