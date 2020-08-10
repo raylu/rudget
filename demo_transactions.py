@@ -39,6 +39,7 @@ cat_digital = FakeCategory('Shops, Digital Purchase')
 cat_cable = FakeCategory('Service, Cable')
 cat_groceries = FakeCategory('Shops, Supermarkets and Groceries')
 cat_entertainment = FakeCategory('Service, Entertainment')
+cat_sport = FakeCategory('Shops, Sporting Goods')
 
 def data():
 	today = datetime.date.today()
@@ -47,11 +48,11 @@ def data():
 		return FakeTransaction(today - datetime.timedelta(days), amount, name, account, category)
 
 	t = [
-		ft(5, 287000, 'CENLAR Mortgage', cat_loans),
-		ft(35, 287000, 'CENLAR Mortgage', cat_loans),
-		ft(66, 287000, 'CENLAR Mortgage', cat_loans),
-		ft(96, 287000, 'CENLAR Mortgage', cat_loans),
-		ft(127, 287000, 'CENLAR Mortgage', cat_loans),
+		ft(5, 187000, 'CENLAR Mortgage', cat_loans),
+		ft(35, 187000, 'CENLAR Mortgage', cat_loans),
+		ft(66, 187000, 'CENLAR Mortgage', cat_loans),
+		ft(96, 187000, 'CENLAR Mortgage', cat_loans),
+		ft(127, 187000, 'CENLAR Mortgage', cat_loans),
 		ft(10, 779, 'Steam Games', cat_games),
 		ft(30, 2499, 'Steam Games', cat_games),
 		ft(100, 499, 'Steam Games', cat_games),
@@ -89,6 +90,8 @@ def data():
 		ft(72, 7259, 'UNCLE FRESH INC', cat_groceries),
 		ft(28, 10082, '99 RANCH #1772', cat_groceries),
 		ft(1, 5623, 'Nintendo', cat_entertainment),
+		ft(18, 26424, 'Sports Basement', cat_sport),
+		ft(18, 7358, 'Sports Basement', cat_sport),
 	]
 	t.sort(key=operator.attrgetter('date'))
 	return t, [account]
