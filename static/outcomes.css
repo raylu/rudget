@@ -1,5 +1,6 @@
 body {
 	margin: 0;
+	background-color: #f5f8fa;
 }
 
 .hero {
@@ -61,6 +62,7 @@ div#info {
 	padding-bottom: 100px;
 }
 div#info div.info_card {
+	background-color: #fff;
 	border: 1px solid #e0e0e0;
 	border-radius: 4px;
 	drop-shadow(2px 2px 10px rgba(0, 0, 0, 0.1));
@@ -110,6 +112,7 @@ div#regularity div#regularity_groups > div.group_header .group_total {
 	font-size: 24px;
 	font-weight: bold;
 	margin: 18px 0;
+	color: #16235f;
 }
 div#regularity div#regularity_groups > div.group_header .group_transactions {
 	font-size: 20px;
@@ -139,7 +142,10 @@ div.line > div:last-child {
 
 div.header {
 	margin-top: 34px;
+	font-size: 16px;
 	font-weight: bold;
+	text-transform: uppercase;
+	color: #828282;
 }
 
 div.category_label {
