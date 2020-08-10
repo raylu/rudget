@@ -13,12 +13,12 @@
 			<a href="/"><img src="/static/logo_light.svg" alt="Outcomes"></a>
 			<div class="right_nav">
 				{% if not demo %}
-					<a href="/accounts">Accounts</a>
 					<form method="post" action="/fetch_transactions">
-						<input type="submit" value="Fetch Transactions">
+						<input type="submit" value="Fetch Transactions" class="button">
 					</form>
+					<a href="/accounts"><img src="/static/accounts.svg" alt="Accounts"></a>
 					<form method="post" action="/logout">
-						<input type="submit" value="Logout">
+						<input type="image" src="/static/logout.svg">
 					</form>
 				{% endif %}
 			</div>

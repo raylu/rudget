@@ -16,15 +16,6 @@ body {
 	left: 0;
 }
 
-a.button {
-	display: inline-block;
-	border: 1px solid #16235f;
-	border-radius: 24px;
-	padding: 10px 30px;
-	color: #16235f;
-	text-decoration: none;
-}
-
 nav {
 	margin: 55px 70px;
 	display: flex;
@@ -34,6 +25,11 @@ nav {
 }
 nav div.right_nav a.button {
 	background-color: #fff;
+}
+
+a.button {
+	border: 1px solid #16235f;
+	color: #16235f;
 }
 
 section.text {
@@ -53,6 +49,7 @@ h2 {
 
 p {
 	font-size: 20px;
+	line-height: 1.5;
 }
 
 div.modal {

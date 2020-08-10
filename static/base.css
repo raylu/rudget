@@ -6,3 +6,10 @@ body {
 	font-family: Roboto, sans-serif;
 	color: #111;
 }
+
+.button {
+	display: inline-block;
+	border-radius: 24px;
+	padding: 10px 30px;
+	text-decoration: none;
+}
