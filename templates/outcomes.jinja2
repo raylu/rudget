@@ -33,7 +33,14 @@
 	</div>
 
 	<div id="info">
-		<div class="info_card" id="regularity">
+		<div id="accounts">
+			<h2>Accounts</h2>
+			<div class="info_card">
+				<div id="items"></div>
+			</div>
+		</div>
+
+		<div id="regularity">
 			<h2>Spending by regularity</h2>
 			<div id="date">
 				<select>
@@ -42,38 +49,35 @@
 					<option value="180">Last 180 days</option>
 				</select>
 			</div>
-			<div id="regularity_groups">
-				<div class="group_header active">
-					<div class="header_text">LOW</div>
-					<div class="group_total"></div>
-					<span class="group_transactions"></span> transactions
+			<div class="info_card">
+				<div id="regularity_groups">
+					<div class="group_header active">
+						<div class="header_text">LOW</div>
+						<div class="group_total"></div>
+						<span class="group_transactions"></span> transactions
+					</div>
+					<div class="group_header">
+						<div class="header_text">MEDIUM</div>
+						<div class="group_total"></div>
+						<span class="group_transactions"></span> transactions
+					</div>
+					<div class="group_header">
+						<div class="header_text">HIGH</div>
+						<div class="group_total"></div>
+						<span class="group_transactions"></span> transactions
+					</div>
 				</div>
-				<div class="group_header">
-					<div class="header_text">MEDIUM</div>
-					<div class="group_total"></div>
-					<span class="group_transactions"></span> transactions
+				<div class="line header">
+					<div>Category Name</div>
+					<div>Periodicity</div>
+					<div>Amount</div>
 				</div>
-				<div class="group_header">
-					<div class="header_text">HIGH</div>
-					<div class="group_total"></div>
-					<span class="group_transactions"></span> transactions
+				<div id="transactions">
+					<div class="active"></div>
+					<div></div>
+					<div></div>
 				</div>
 			</div>
-			<div class="line header">
-				<div>Category Name</div>
-				<div>Periodicity</div>
-				<div>Amount</div>
-			</div>
-			<div id="transactions">
-				<div class="active"></div>
-				<div></div>
-				<div></div>
-			</div>
-		</div>
-
-		<div class="info_card" id="accounts">
-			<h2>Accounts</h2>
-			<div id="items"></div>
 		</div>
 	</div>
 	{% if demo %}
