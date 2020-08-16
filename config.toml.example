@@ -1,0 +1,8 @@
+[pigwig]
+cookie_secret = ''
+
+[plaid]
+environment = 'development'
+client_id = ''
+public_key = ''
+development = ''
