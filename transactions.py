@@ -42,6 +42,9 @@ def process_item(item, plaid_transactions, seen_accounts):
 	transactions = plaid.TransactionIter(item.access_token, account_ids)
 
 	for t in transactions:
+		if t['category_id'] is None:
+			print('ignoring', t)
+			continue
 		if t['transaction_id'] not in plaid_transactions:
 			plaid_account_id = plaid_accounts[t['account_id']].plaid_account_id
 			date = datetime.datetime.strptime(t['date'], '%Y-%m-%d').date()
