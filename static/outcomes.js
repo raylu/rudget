@@ -26,6 +26,11 @@
 			'x': 'x',
 			'xFormat': '%Y-%m',
 			'columns': [],
+			colors: {
+				low: '#5555ff',
+				medium: '#8888ee',
+				high: '#aaaadd',
+			},
 		},
 		'axis': {
 			'x': {

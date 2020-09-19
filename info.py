@@ -20,6 +20,7 @@ def transaction_info(transactions, accounts, days):
 		payees[t.name].append(t)
 		categories[category].append(t)
 
+	chart_threshold = datetime.date.today() - datetime.timedelta(days=365)
 	transaction_threshold = datetime.date.today() - datetime.timedelta(days=days)
 	total_spending = 0.0
 	cat_by_periodicity = []
@@ -35,7 +36,8 @@ def transaction_info(transactions, accounts, days):
 				regularity_group = 1
 			else:
 				regularity_group = 0
-			months[t.date.strftime('%Y-%m')][regularity_group] += t.amount
+			if t.date >= chart_threshold:
+				months[t.date.strftime('%Y-%m')][regularity_group] += t.amount
 			if t.date >= transaction_threshold:
 				displayed_transactions.append({
 					'date': t.date.isoformat(),
