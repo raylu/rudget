@@ -2,6 +2,7 @@
 
 import datetime
 
+import httpx
 from sqlalchemy.orm import load_only
 
 import db
@@ -28,7 +29,12 @@ def process_user(user_id):
 		process_item(item, plaid_transactions, seen_accounts)
 
 def process_item(item, plaid_transactions, seen_accounts):
-	plaid_accounts = handle_accounts(item.plaid_item_id, plaid.get_accounts(item.access_token))
+	try:
+		accounts_response = plaid.get_accounts(item.access_token)
+	except httpx.HTTPStatusError:
+		print('error fetching accounts for plaid_item_id', item.plaid_item_id)
+		return
+	plaid_accounts = handle_accounts(item.plaid_item_id, accounts_response)
 	account_ids = []
 	for plaid_account in plaid_accounts.values():
 		key = (plaid_account.subtype, plaid_account.mask)
@@ -38,7 +44,9 @@ def process_item(item, plaid_transactions, seen_accounts):
 		else:
 			print('skipping', key)
 
-	print('getting transactions for', item.plaid_item_id)
+	if len(account_ids) == 0:
+		return
+	print('getting transactions for plaid_item_id', item.plaid_item_id)
 	transactions = plaid.TransactionIter(item.access_token, account_ids)
 
 	for t in transactions:
