@@ -9,7 +9,7 @@ import plaid
 
 def main():
 	for user in db.User.query.all():
-		process_user(user.id)
+		process_user(user.user_id)
 
 def process_user(user_id):
 	transaction_query = db.PlaidTransaction.query \
@@ -74,6 +74,7 @@ def handle_accounts(item_id, accounts):
 			plaid_account.mask = account['mask']
 			plaid_account.subtype = account['subtype']
 
+	db.session.flush()
 	return plaid_accounts
 
 if __name__ == '__main__':
