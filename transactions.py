@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import datetime
+import sys
 
 import httpx
 from sqlalchemy.orm import load_only
@@ -9,7 +10,10 @@ import db
 import plaid
 
 def main():
-	for user in db.User.query.all():
+	query = db.User.query
+	if len(sys.argv) > 0:
+		query.filter(db.User.user_id.in_(map(int, sys.argv[1:])))
+	for user in query.all():
 		process_user(user.user_id)
 
 def process_user(user_id):

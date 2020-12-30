@@ -68,5 +68,6 @@ def _post(endpoint, json):
 		'secret': config.plaid.development,
 	})
 	response = hc.post('https://%s.plaid.com%s' % (config.plaid.environment, endpoint), json=json)
-	response.raise_for_status()
+	if response.status_code >= 300:
+		raise httpx.HTTPStatusError(response.content, request=response._request, response=response)
 	return response.json()
