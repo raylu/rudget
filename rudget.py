@@ -100,8 +100,15 @@ def accounts_update(request, user_id):
 
 @authed
 def fetch_transactions(request, user_id):
-	transactions.process_user(user_id)
-	return Response(code=303, location='/outcomes')
+	relogin_items = transactions.process_user(user_id)
+	if len(relogin_items) > 0:
+		return Response.render(request, 'relogin.jinja2', {
+			'environment': config.plaid.environment,
+			'plaid_public_key': config.plaid.public_key,
+			'relogin_items': relogin_items,
+		})
+	else:
+		return Response(code=303, location='/outcomes')
 
 @authed
 def transaction_info(request, user_id):
@@ -133,6 +140,14 @@ def plaid_access_token(request, user_id):
 	db.session.commit()
 	return Response.json(None)
 
+@authed
+def plaid_link_token(request, user_id):
+	item = db.PlaidItem.query.get(int(request.body['plaid_item_id']))
+	if item.user_id != user_id:
+		return Response(code=403)
+	link_token = plaid.link_token(user_id, item.access_token)
+	return Response.json(link_token)
+
 def static(request, file_path):
 	try:
 		with open(path.join('static', file_path), 'rb') as f:
@@ -154,6 +169,7 @@ routes = [
 	('GET', '/transaction_info', transaction_info),
 	('GET', '/transaction_info_demo', transaction_info_demo),
 	('POST', '/plaid_access_token', plaid_access_token),
+	('POST', '/plaid_link_token', plaid_link_token),
 	('GET', '/static/<path:file_path>', static),
 ]
 

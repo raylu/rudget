@@ -29,15 +29,21 @@ def process_user(user_id):
 			.order_by(db.PlaidItem.plaid_item_id) \
 			.all()
 	seen_accounts = set()
+	relogin_items = []
 	for item in items:
-		process_item(item, plaid_transactions, seen_accounts)
+		relogin = process_item(item, plaid_transactions, seen_accounts)
+		if relogin:
+			relogin_items.append(item)
+	return relogin_items
 
 def process_item(item, plaid_transactions, seen_accounts):
 	try:
 		accounts_response = plaid.get_accounts(item.access_token)
-	except httpx.HTTPStatusError:
-		print('error fetching accounts for plaid_item_id', item.plaid_item_id)
-		return
+	except httpx.HTTPStatusError as e:
+		if e.response.json()['error_code'] != 'ITEM_LOGIN_REQUIRED':
+			raise
+		print('plaid_item_id', item.plaid_item_id, 'needs relogin')
+		return True
 	plaid_accounts = handle_accounts(item.plaid_item_id, accounts_response)
 	account_ids = []
 	for plaid_account in plaid_accounts.values():
@@ -67,6 +73,7 @@ def process_item(item, plaid_transactions, seen_accounts):
 			db.session.add(plaid_transaction)
 		#print('%s %-50s %9d %s' % (t['date'], t['name'], amount, ', '.join(t['category'])))
 	db.session.commit()
+	return False
 
 def handle_accounts(item_id, accounts):
 	plaid_accounts = {}

@@ -12,6 +12,16 @@ def exchange_token(public_token):
 	})
 	return data['item_id'], data['access_token']
 
+def link_token(user_id, access_token):
+	data = _post('/link/token/create', json={
+		'client_name': 'rudget',
+		'access_token': access_token,
+		'user': {'client_user_id': str(user_id)},
+		'language': 'en',
+		'country_codes': ['US'],
+	})
+	return data['link_token']
+
 def auth(access_token):
 	return _post('/auth/get', json={'access_token': access_token})
 
