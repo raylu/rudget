@@ -3,7 +3,7 @@ from sqlalchemy import create_engine, Column, Date, ForeignKey, Integer, String,
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, scoped_session, sessionmaker
 
-engine = create_engine('postgres://rudget@/rudget', echo=False)
+engine = create_engine('postgresql://rudget@/rudget', echo=False)
 session_factory = sessionmaker(bind=engine)
 session = scoped_session(session_factory)
 
