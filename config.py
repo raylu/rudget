@@ -1,4 +1,4 @@
-import toml
+import tomllib
 
 class TOMLAttrs:
 	pass
@@ -11,6 +11,6 @@ def set_attrs(target, d):
 		else:
 			target[k] = v
 
-with open('config.toml', 'r') as f:
-	doc = toml.load(f)
+with open('config.toml', 'rb') as f:
+	doc = tomllib.load(f)
 set_attrs(globals(), doc)

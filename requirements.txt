@@ -6,4 +6,3 @@ passlib
 pigwig
 psycopg2-binary
 sqlalchemy
-toml
